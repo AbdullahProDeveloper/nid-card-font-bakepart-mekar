@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>NID Card Pro - Professional Processor</title>
-    <meta name="description" content="Professional NID Card processor with advanced crop support">
+    <meta name="description" content="Professional NID Card processor with advanced features">
     
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -309,40 +309,10 @@
             border: none;
         }
 
-        .btn-secondary-gradient {
-            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+        .btn-info-gradient {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
             color: white;
             border: none;
-        }
-
-        /* Toggle Switch */
-        .toggle-group {
-            background: #f1f5f9;
-            border-radius: 15px;
-            padding: 5px;
-            display: flex;
-            gap: 5px;
-        }
-
-        .toggle-btn {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            color: #64748b;
-        }
-
-        .toggle-btn.active {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .toggle-btn:hover {
-            color: var(--primary);
         }
 
         /* Preview Area */
@@ -464,6 +434,63 @@
             text-align: center;
         }
 
+        /* Action Buttons Container */
+        .action-buttons {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .action-buttons h6 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        /* Download Dropdown */
+        .dropdown-menu-custom {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-lg);
+            padding: 10px;
+            min-width: 250px;
+            border: 1px solid var(--border);
+        }
+
+        .dropdown-item-custom {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+        .dropdown-item-custom:last-child {
+            margin-bottom: 0;
+        }
+
+        .dropdown-item-custom:hover {
+            background: var(--light);
+            transform: translateX(5px);
+        }
+
+        .dropdown-item-custom i {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .dropdown-item-custom span {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
         /* Toast */
         .toast-custom {
             position: fixed;
@@ -506,6 +533,10 @@
 
         .toast-warning .toast-icon {
             background: var(--warning);
+        }
+
+        .toast-info .toast-icon {
+            background: var(--info);
         }
 
         /* Modal */
@@ -629,7 +660,7 @@
 
         /* Print Styles */
         @media print {
-            .navbar, .no-print, .sidebar {
+            .navbar, .no-print, .sidebar, .action-buttons {
                 display: none !important;
             }
             
@@ -794,49 +825,8 @@
                             </div>
                         </div>
                         
-                        <!-- Position Toggle -->
-                        <div class="mt-4">
-                            <label class="form-label fw-bold" data-i18n="card_position">কার্ড পজিশন</label>
-                            <div class="toggle-group">
-                                <button class="toggle-btn active" id="topFirstBtn" onclick="setTopFirst(true)">
-                                    <i class="fas fa-arrow-up me-1"></i>
-                                    <span data-i18n="card1_top">কার্ড ১ উপরে</span>
-                                </button>
-                                <button class="toggle-btn" id="bottomFirstBtn" onclick="setTopFirst(false)">
-                                    <i class="fas fa-arrow-down me-1"></i>
-                                    <span data-i18n="card2_top">কার্ড ২ উপরে</span>
-                                </button>
-                            </div>
-                        </div>
-                        
                         <!-- Action Buttons -->
                         <div class="mt-4">
-                            <button class="btn btn-custom btn-success-gradient w-100 mb-2" onclick="downloadPDF()" id="downloadPdfBtn" disabled>
-                                <i class="fas fa-download me-2"></i>
-                                <span data-i18n="download_pdf">PDF ডাউনলোড</span>
-                            </button>
-                            
-                            <button class="btn btn-custom btn-primary-gradient w-100 mb-2" onclick="printPDF()" id="printBtn" disabled>
-                                <i class="fas fa-print me-2"></i>
-                                <span data-i18n="print">প্রিন্ট</span>
-                            </button>
-                            
-                            <div class="row g-2 mb-3">
-                                <div class="col-5">
-                                    <select class="form-select" id="imageFormat">
-                                        <option value="png">PNG</option>
-                                        <option value="jpeg">JPEG</option>
-                                        <option value="webp">WEBP</option>
-                                    </select>
-                                </div>
-                                <div class="col-7">
-                                    <button class="btn btn-custom btn-warning-gradient w-100" onclick="downloadImage()" id="downloadImgBtn" disabled>
-                                        <i class="fas fa-image me-1"></i>
-                                        <span data-i18n="download_image">ইমেজ ডাউনলোড</span>
-                                    </button>
-                                </div>
-                            </div>
-                            
                             <button class="btn btn-custom btn-danger-gradient w-100" onclick="resetAll()">
                                 <i class="fas fa-redo me-2"></i>
                                 <span data-i18n="reset">রিসেট</span>
@@ -893,6 +883,55 @@
                                         <div class="empty-card-message">
                                             <i class="fas fa-plus-circle"></i>
                                             <p>কার্ড ২ এ ফাইল দিন</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="action-buttons">
+                                <h6><i class="fas fa-cogs me-2"></i>ডাউনলোড ও প্রিন্ট</h6>
+                                
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="dropdown">
+                                            <button class="btn btn-custom btn-success-gradient w-100 dropdown-toggle" type="button" id="downloadDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-download me-2"></i>
+                                                ডাউনলোড করুন
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-custom w-100" aria-labelledby="downloadDropdown">
+                                                <li>
+                                                    <div class="dropdown-item-custom" onclick="downloadAs('pdf')">
+                                                        <i class="fas fa-file-pdf"></i>
+                                                        <span>PDF ফাইল ডাউনলোড</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="dropdown-item-custom" onclick="downloadAs('png')">
+                                                        <i class="fas fa-file-image"></i>
+                                                        <span>PNG ইমেজ ডাউনলোড</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="dropdown-item-custom" onclick="downloadAs('jpeg')">
+                                                        <i class="fas fa-file-image"></i>
+                                                        <span>JPEG ইমেজ ডাউনলোড</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="dropdown-item-custom" onclick="downloadAs('webp')">
+                                                        <i class="fas fa-file-image"></i>
+                                                        <span>WEBP ইমেজ ডাউনলোড</span>
+                                                    </div>
+                                                </li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li>
+                                                    <div class="dropdown-item-custom" onclick="downloadAs('print')">
+                                                        <i class="fas fa-print"></i>
+                                                        <span>প্রিন্ট করুন</span>
+                                                    </div>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -972,15 +1011,10 @@
                 upload_title: 'ফাইল আপলোড করুন',
                 upload_instruction: 'ক্লিক করুন অথবা ড্র্যাগ করুন',
                 upload_hint: 'PDF, JPG, PNG সাপোর্টেড',
-                card_position: 'কার্ড পজিশন',
-                card1_top: 'কার্ড ১ উপরে',
-                card2_top: 'কার্ড ২ উপরে',
                 card1_select: 'কার্ড ১',
                 card2_select: 'কার্ড ২',
-                downloaded_files: 'আপলোডকৃত ফাইল',
                 download_pdf: 'PDF ডাউনলোড',
                 print: 'প্রিন্ট',
-                download_image: 'ইমেজ ডাউনলোড',
                 reset: 'রিসেট',
                 preview_title: 'প্রিভিউ',
                 no_file: 'কোনো ফাইল আপলোড করা হয়নি',
@@ -1002,21 +1036,23 @@
                 card2_empty: 'কার্ড ২: খালি',
                 card1_filled_status: 'কার্ড ১: ফাইল আছে',
                 card2_filled_status: 'কার্ড ২: ফাইল আছে',
-                crop_title: 'ক্রপ করুন'
+                crop_title: 'ক্রপ করুন',
+                download_options: 'ডাউনলোড ও প্রিন্ট',
+                download_btn: 'ডাউনলোড করুন',
+                pdf_download: 'PDF ফাইল ডাউনলোড',
+                png_download: 'PNG ইমেজ ডাউনলোড',
+                jpeg_download: 'JPEG ইমেজ ডাউনলোড',
+                webp_download: 'WEBP ইমেজ ডাউনলোড',
+                print_btn: 'প্রিন্ট করুন'
             },
             en: {
                 upload_title: 'Upload File',
                 upload_instruction: 'Click or drag file',
                 upload_hint: 'PDF, JPG, PNG supported',
-                card_position: 'Card Position',
-                card1_top: 'Card 1 Top',
-                card2_top: 'Card 2 Top',
                 card1_select: 'Card 1',
                 card2_select: 'Card 2',
-                downloaded_files: 'Uploaded Files',
                 download_pdf: 'Download PDF',
                 print: 'Print',
-                download_image: 'Download Image',
                 reset: 'Reset',
                 preview_title: 'Preview',
                 no_file: 'No file uploaded yet',
@@ -1038,13 +1074,19 @@
                 card2_empty: 'Card 2: Empty',
                 card1_filled_status: 'Card 1: Filled',
                 card2_filled_status: 'Card 2: Filled',
-                crop_title: 'Crop Image'
+                crop_title: 'Crop Image',
+                download_options: 'Download & Print',
+                download_btn: 'Download',
+                pdf_download: 'Download PDF File',
+                png_download: 'Download PNG Image',
+                jpeg_download: 'Download JPEG Image',
+                webp_download: 'Download WEBP Image',
+                print_btn: 'Print'
             }
         };
 
         // ========== GLOBAL VARIABLES ==========
         let currentLanguage = 'bn';
-        let topFirst = true;
         let currentZoom = 1;
         let selectedCard = 1;
         let card1Image = null;
@@ -1068,9 +1110,6 @@
         function initialize() {
             // Set default language
             switchLanguage('bn');
-            
-            // Set default position
-            setTopFirst(true);
             
             // Set default zoom
             applyZoom();
@@ -1305,11 +1344,6 @@
             document.getElementById('noFileMessage').classList.add('d-none');
             document.getElementById('previewContainer').classList.remove('d-none');
             
-            // Enable buttons
-            document.getElementById('downloadPdfBtn').disabled = false;
-            document.getElementById('printBtn').disabled = false;
-            document.getElementById('downloadImgBtn').disabled = false;
-            
             closeCropModal();
         }
 
@@ -1354,9 +1388,6 @@
             if (!card1Image && !card2Image) {
                 document.getElementById('noFileMessage').classList.remove('d-none');
                 document.getElementById('previewContainer').classList.add('d-none');
-                document.getElementById('downloadPdfBtn').disabled = true;
-                document.getElementById('printBtn').disabled = true;
-                document.getElementById('downloadImgBtn').disabled = true;
             }
         }
 
@@ -1389,31 +1420,6 @@
             }
         }
 
-        // ========== CARD POSITION ==========
-        function setTopFirst(value) {
-            topFirst = value;
-            
-            const card1 = document.getElementById('card1');
-            const card2 = document.getElementById('card2');
-            
-            const btn1 = document.getElementById('topFirstBtn');
-            const btn2 = document.getElementById('bottomFirstBtn');
-            
-            if (topFirst) {
-                card1.classList.remove('mt-4');
-                card2.classList.add('mt-4');
-                
-                btn1.classList.add('active');
-                btn2.classList.remove('active');
-            } else {
-                card1.classList.add('mt-4');
-                card2.classList.remove('mt-4');
-                
-                btn1.classList.remove('active');
-                btn2.classList.add('active');
-            }
-        }
-
         // ========== ZOOM CONTROLS ==========
         function zoomIn() {
             currentZoom = Math.min(2, currentZoom + 0.1);
@@ -1431,79 +1437,80 @@
             document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
         }
 
-        // ========== DOWNLOAD PDF ==========
-        async function downloadPDF() {
+        // ========== DOWNLOAD FUNCTIONS ==========
+        async function downloadAs(type) {
             if (!card1Image && !card2Image) {
                 showToast(translations[currentLanguage].pdf_required, 'warning');
+                return;
+            }
+            
+            if (type === 'print') {
+                printPDF();
                 return;
             }
             
             showLoader();
             
             try {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({
-                    orientation: 'portrait',
-                    unit: 'mm',
-                    format: 'a4'
-                });
-                
-                // Add background
-                doc.setFillColor(248, 250, 252);
-                doc.rect(0, 0, 210, 297, 'F');
-                
-                // Add title
-                doc.setFontSize(16);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(37, 99, 235);
-                doc.text('National ID Card', 105, 20, { align: 'center' });
-                
-                // Add decorative line
-                doc.setDrawColor(37, 99, 235);
-                doc.setLineWidth(1);
-                doc.line(30, 25, 180, 25);
-                
-                // Add cards
-                if (topFirst) {
-                    if (card1Image) {
-                        addImageToPDF(doc, card1Image, 35);
-                    }
-                    if (card2Image) {
-                        addImageToPDF(doc, card2Image, 140);
-                    }
+                if (type === 'pdf') {
+                    await downloadPDF();
                 } else {
-                    if (card2Image) {
-                        addImageToPDF(doc, card2Image, 35);
-                    }
-                    if (card1Image) {
-                        addImageToPDF(doc, card1Image, 140);
-                    }
+                    await downloadImage(type);
                 }
                 
-                // Add footer
-                doc.setFontSize(8);
-                doc.setTextColor(100, 116, 139);
-                doc.text('Generated by NID Card Pro', 105, 290, { align: 'center' });
-                
-                // Save
-                doc.save('nid-cards.pdf');
                 showToast(translations[currentLanguage].download_success, 'success');
                 
             } catch (error) {
-                console.error('Error downloading PDF:', error);
-                showToast('Error downloading PDF!', 'error');
+                console.error('Error downloading:', error);
+                showToast('Error downloading!', 'error');
             }
             
             hideLoader();
         }
 
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+            
+            // Add background
+            doc.setFillColor(248, 250, 252);
+            doc.rect(0, 0, 210, 297, 'F');
+            
+            // Add title
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(37, 99, 235);
+            doc.text('National ID Card', 105, 20, { align: 'center' });
+            
+            // Add decorative line
+            doc.setDrawColor(37, 99, 235);
+            doc.setLineWidth(1);
+            doc.line(30, 25, 180, 25);
+            
+            // Add cards
+            if (card1Image) {
+                addImageToPDF(doc, card1Image, 35);
+            }
+            if (card2Image) {
+                addImageToPDF(doc, card2Image, 140);
+            }
+            
+            // Add footer
+            doc.setFontSize(8);
+            doc.setTextColor(100, 116, 139);
+            doc.text('Generated by NID Card Pro', 105, 290, { align: 'center' });
+            
+            // Save
+            doc.save('nid-cards.pdf');
+        }
+
         function addImageToPDF(doc, imageSrc, yOffset) {
-            // Calculate dimensions
             const maxWidth = 170;
             const maxHeight = 110;
-            
-            const img = new Image();
-            img.src = imageSrc;
             
             doc.addImage(imageSrc, 'JPEG', 20, yOffset, maxWidth, maxHeight);
             
@@ -1511,6 +1518,34 @@
             doc.setDrawColor(203, 213, 225);
             doc.setLineWidth(0.5);
             doc.roundedRect(20, yOffset, maxWidth, maxHeight, 5, 5);
+        }
+
+        async function downloadImage(format) {
+            const a4Page = document.getElementById('a4Page');
+            
+            // Remove transform for proper rendering
+            const originalTransform = a4Page.style.transform;
+            a4Page.style.transform = 'none';
+            
+            const canvas = await html2canvas(a4Page, {
+                scale: 3,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                logging: false,
+                onclone: (clonedDoc) => {
+                    const clonedElement = clonedDoc.getElementById('a4Page');
+                    clonedElement.style.transform = 'none';
+                }
+            });
+            
+            // Restore transform
+            a4Page.style.transform = originalTransform;
+            
+            // Create download link
+            const link = document.createElement('a');
+            link.download = `nid-cards.${format}`;
+            link.href = canvas.toDataURL(`image/${format}`, 1.0);
+            link.click();
         }
 
         // ========== PRINT ==========
@@ -1524,53 +1559,6 @@
             setTimeout(() => {
                 window.print();
             }, 500);
-        }
-
-        // ========== DOWNLOAD IMAGE ==========
-        async function downloadImage() {
-            if (!card1Image && !card2Image) {
-                showToast(translations[currentLanguage].pdf_required, 'warning');
-                return;
-            }
-            
-            showLoader();
-            
-            try {
-                const a4Page = document.getElementById('a4Page');
-                const format = document.getElementById('imageFormat').value;
-                
-                // Remove transform for proper rendering
-                const originalTransform = a4Page.style.transform;
-                a4Page.style.transform = 'none';
-                
-                const canvas = await html2canvas(a4Page, {
-                    scale: 3,
-                    useCORS: true,
-                    backgroundColor: '#ffffff',
-                    logging: false,
-                    onclone: (clonedDoc) => {
-                        const clonedElement = clonedDoc.getElementById('a4Page');
-                        clonedElement.style.transform = 'none';
-                    }
-                });
-                
-                // Restore transform
-                a4Page.style.transform = originalTransform;
-                
-                // Create download link
-                const link = document.createElement('a');
-                link.download = `nid-cards.${format}`;
-                link.href = canvas.toDataURL(`image/${format}`, 1.0);
-                link.click();
-                
-                showToast(translations[currentLanguage].download_success, 'success');
-                
-            } catch (error) {
-                console.error('Error downloading image:', error);
-                showToast('Error downloading image!', 'error');
-            }
-            
-            hideLoader();
         }
 
         // ========== RESET ==========
@@ -1602,17 +1590,9 @@
             document.getElementById('noFileMessage').classList.remove('d-none');
             document.getElementById('previewContainer').classList.add('d-none');
             
-            // Disable buttons
-            document.getElementById('downloadPdfBtn').disabled = true;
-            document.getElementById('printBtn').disabled = true;
-            document.getElementById('downloadImgBtn').disabled = true;
-            
             // Reset zoom
             currentZoom = 1;
             applyZoom();
-            
-            // Reset position
-            setTopFirst(true);
             
             // Reset card selection
             selectCard(1);
