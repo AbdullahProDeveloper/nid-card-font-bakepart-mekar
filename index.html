@@ -236,6 +236,7 @@
             gap: 40px;
             padding: 50px 0;
             min-height: 1043px;
+            transform-origin: center center;
         }
 
         /* NID Card - Official Size */
@@ -246,6 +247,7 @@
             overflow: hidden;
             position: relative;
             border-radius: 5px;
+            transition: transform 0.3s ease;
         }
 
         .nid-card-wrapper img {
@@ -352,6 +354,30 @@
             background: var(--primary);
             color: white;
             transform: scale(1.1);
+        }
+
+        /* Save Button */
+        .save-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .save-btn:active {
+            transform: translateY(0);
         }
 
         /* Action Buttons */
@@ -798,7 +824,13 @@
                                     </div>
                                 </div>
                                 
-                                <button class="btn btn-primary w-100 mt-3" onclick="resetCustomization()">
+                                <!-- Save Button -->
+                                <button class="save-btn" onclick="saveCustomization()">
+                                    <i class="fas fa-save me-2"></i>
+                                    <span data-i18n="save_custom">কাস্টমাইজেশন সেভ করুন</span>
+                                </button>
+                                
+                                <button class="btn btn-primary w-100 mt-2" onclick="resetCustomization()">
                                     <i class="fas fa-undo me-2"></i>
                                     <span data-i18n="reset_custom">সব রিসেট</span>
                                 </button>
@@ -894,6 +926,7 @@
                 card2_settings: 'কার্ড ২',
                 opacity: 'অপাসিটি',
                 position: 'পজিশন',
+                save_custom: 'কাস্টমাইজেশন সেভ করুন',
                 reset_custom: 'সব রিসেট',
                 download_print: 'ডাউনলোড ও প্রিন্ট',
                 download_btn: 'ডাউনলোড করুন',
@@ -912,7 +945,8 @@
                 download_success: 'সফল!',
                 download_error: 'সমস্যা!',
                 reset_success: 'রিসেট হয়েছে!',
-                file_required: 'ফাইল দিন'
+                file_required: 'ফাইল দিন',
+                save_success: 'সেভ হয়েছে!'
             },
             en: {
                 upload_title: 'Upload',
@@ -937,6 +971,7 @@
                 card2_settings: 'Card 2',
                 opacity: 'Opacity',
                 position: 'Position',
+                save_custom: 'Save Customization',
                 reset_custom: 'Reset All',
                 download_print: 'Download & Print',
                 download_btn: 'Download',
@@ -955,7 +990,8 @@
                 download_success: 'Success!',
                 download_error: 'Error!',
                 reset_success: 'Reset!',
-                file_required: 'Upload file'
+                file_required: 'Upload file',
+                save_success: 'Saved!'
             }
         };
 
@@ -970,6 +1006,7 @@
         let card1Settings = { x: 0, y: 0, opacity: 1 };
         let card2Settings = { x: 0, y: 0, opacity: 1 };
         let bothCardsOffset = { x: 0, y: 0 };
+        let isSaved = false;
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -1217,7 +1254,10 @@
             const cardImg = document.getElementById(`card${cardNumber}Img`);
             
             if (cardImg) {
-                cardWrapper.style.transform = `translate(${settings.x + bothCardsOffset.x}px, ${settings.y + bothCardsOffset.y}px)`;
+                // Apply both card offset and individual settings
+                const totalX = settings.x + bothCardsOffset.x;
+                const totalY = settings.y + bothCardsOffset.y;
+                cardWrapper.style.transform = `translate(${totalX}px, ${totalY}px)`;
                 cardImg.style.opacity = settings.opacity;
             }
         }
@@ -1232,6 +1272,7 @@
             }
             applyCustomization(1);
             applyCustomization(2);
+            isSaved = false;
         }
 
         function customMove(cardNumber, direction) {
@@ -1243,12 +1284,19 @@
                 case 'right': settings.x += 5; break;
             }
             applyCustomization(cardNumber);
+            isSaved = false;
         }
 
         function customOpacity(cardNumber, value) {
             const settings = cardNumber === 1 ? card1Settings : card2Settings;
             settings.opacity = value / 100;
             applyCustomization(cardNumber);
+            isSaved = false;
+        }
+
+        function saveCustomization() {
+            isSaved = true;
+            showToast(translations[currentLanguage].save_success, 'success');
         }
 
         function resetCustomization() {
@@ -1259,6 +1307,7 @@
             document.getElementById('card2OpacitySlider').value = 100;
             applyCustomization(1);
             applyCustomization(2);
+            isSaved = false;
         }
 
         // ========== ZOOM ==========
@@ -1309,6 +1358,13 @@
         async function downloadPDF() {
             const a4Page = document.getElementById('a4Page');
             
+            // Save current transform
+            const cardContainer = document.querySelector('.card-container');
+            const originalTransform = cardContainer.style.transform;
+            
+            // Reset transform for capture
+            cardContainer.style.transform = 'none';
+            
             const canvas = await html2canvas(a4Page, {
                 scale: 3,
                 useCORS: true,
@@ -1317,6 +1373,9 @@
                 windowWidth: 794,
                 windowHeight: 1123
             });
+            
+            // Restore transform
+            cardContainer.style.transform = originalTransform;
             
             const imgData = canvas.toDataURL('image/jpeg', 1.0);
             
@@ -1334,6 +1393,13 @@
         async function downloadImage(format) {
             const a4Page = document.getElementById('a4Page');
             
+            // Save current transform
+            const cardContainer = document.querySelector('.card-container');
+            const originalTransform = cardContainer.style.transform;
+            
+            // Reset transform for capture
+            cardContainer.style.transform = 'none';
+            
             const canvas = await html2canvas(a4Page, {
                 scale: 3,
                 useCORS: true,
@@ -1342,6 +1408,9 @@
                 windowWidth: 794,
                 windowHeight: 1123
             });
+            
+            // Restore transform
+            cardContainer.style.transform = originalTransform;
             
             const link = document.createElement('a');
             link.download = `nid-cards.${format}`;
@@ -1386,6 +1455,7 @@
             applyZoom();
             selectCard(1);
             resetCustomization();
+            isSaved = false;
             
             showToast(translations[currentLanguage].reset_success, 'success');
         }
