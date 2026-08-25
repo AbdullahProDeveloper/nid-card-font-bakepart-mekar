@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>NID Card Pro - Professional Processor</title>
-    <meta name="description" content="Professional NID Card processor with official size">
     
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -22,7 +21,6 @@
         :root {
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
-            --secondary: #7c3aed;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
@@ -45,7 +43,7 @@
 
         body {
             font-family: 'Poppins', 'Hind Siliguri', sans-serif;
-            background: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);
+            background: #f8fafc;
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -123,11 +121,6 @@
             transition: all 0.3s ease;
         }
 
-        .btn-language:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
         /* Main Container */
         .main-container {
             padding-top: 100px;
@@ -144,11 +137,6 @@
             overflow: hidden;
         }
 
-        .card-custom:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 50px rgba(0,0,0,0.15);
-        }
-
         .card-header-custom {
             background: var(--gradient);
             color: white;
@@ -157,10 +145,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .card-header-custom i {
-            font-size: 1.5rem;
         }
 
         .card-body-custom {
@@ -195,10 +179,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .card-select-btn:hover {
-            color: var(--primary);
-        }
-
         /* Upload Zone */
         .upload-zone {
             border: 3px dashed var(--primary);
@@ -207,24 +187,9 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.4s ease;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            background: #f8fafc;
             position: relative;
             overflow: hidden;
-        }
-
-        .upload-zone::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-            transition: all 0.5s ease;
-        }
-
-        .upload-zone:hover::before {
-            left: 100%;
         }
 
         .upload-zone:hover {
@@ -234,14 +199,7 @@
 
         .upload-zone.dragover {
             border-color: var(--success);
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            background: #d1fae5;
         }
 
         .upload-icon {
@@ -250,7 +208,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
-            transition: all 0.3s ease;
         }
 
         /* Buttons */
@@ -261,46 +218,15 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-custom::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn-custom:hover::after {
-            width: 300px;
-            height: 300px;
         }
 
         .btn-custom:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-
-        .btn-primary-gradient {
-            background: var(--gradient);
-            color: white;
-            border: none;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         .btn-success-gradient {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            border: none;
-        }
-
-        .btn-warning-gradient {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             color: white;
             border: none;
         }
@@ -317,16 +243,18 @@
             border: none;
         }
 
-        /* Preview Area */
+        /* Preview Area - Mobile Scroll Fix */
         .preview-container {
             background: #f8fafc;
             border-radius: 20px;
             padding: 20px;
             border: 2px solid var(--border);
             position: relative;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* A4 Page - Pure White */
+        /* A4 Page */
         .a4-page {
             width: 210mm;
             min-height: 297mm;
@@ -336,20 +264,17 @@
             box-shadow: 0 0 40px rgba(0,0,0,0.2);
             border-radius: 10px;
             position: relative;
-            transition: transform 0.3s ease;
-            overflow: hidden;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* NID Card - Official Size */
+        /* NID Card */
         .nid-card-wrapper {
             width: var(--card-width);
             height: var(--card-height);
             background: white;
-            border-radius: 3mm;
             overflow: hidden;
-            transition: all 0.3s ease;
             position: relative;
-            box-shadow: none;
             margin: 0 auto;
         }
 
@@ -370,7 +295,6 @@
             background: #f8fafc;
             color: #94a3b8;
             border: 2px dashed var(--border);
-            border-radius: 3mm;
         }
 
         .empty-card-message i {
@@ -383,13 +307,15 @@
             color: #64748b;
         }
 
-        /* Card Container */
+        /* Card Container - Professional Layout */
         .card-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15mm;
-            padding: 10mm 0;
+            justify-content: center;
+            gap: 20mm;
+            padding: 25mm 0;
+            min-height: 267mm;
         }
 
         /* Customization Panel */
@@ -416,17 +342,6 @@
             border-bottom: 2px solid var(--border);
         }
 
-        .customization-header h6 {
-            margin: 0;
-            font-weight: 600;
-        }
-
-        .customization-panel .form-label {
-            font-weight: 500;
-            font-size: 0.9rem;
-            color: var(--dark);
-        }
-
         .btn-customize-toggle {
             background: var(--gradient);
             color: white;
@@ -434,14 +349,8 @@
             border-radius: 10px;
             padding: 10px 20px;
             font-weight: 600;
-            transition: all 0.3s ease;
             width: 100%;
             margin-top: 20px;
-        }
-
-        .btn-customize-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         /* Slider */
@@ -464,7 +373,6 @@
             background: var(--primary);
             cursor: pointer;
             border: 2px solid white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         /* Zoom Controls */
@@ -481,7 +389,6 @@
             border-radius: 50%;
             border: none;
             background: #f1f5f9;
-            transition: all 0.3s ease;
             font-weight: bold;
             cursor: pointer;
         }
@@ -489,35 +396,24 @@
         .zoom-btn:hover {
             background: var(--primary);
             color: white;
-            transform: scale(1.1);
         }
 
         .zoom-level {
             padding: 5px 15px;
             font-weight: 600;
             color: var(--dark);
-            min-width: 60px;
-            text-align: center;
             background: white;
             border-radius: 10px;
             box-shadow: var(--shadow-sm);
         }
 
-        /* Action Buttons Container */
+        /* Action Buttons */
         .action-buttons {
             background: white;
             border-radius: 15px;
             padding: 20px;
             margin-top: 20px;
             box-shadow: var(--shadow-md);
-        }
-
-        .action-buttons h6 {
-            color: var(--dark);
-            margin-bottom: 15px;
-            font-weight: 600;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 10px;
         }
 
         /* Download Dropdown */
@@ -527,7 +423,6 @@
             box-shadow: var(--shadow-lg);
             padding: 10px;
             min-width: 250px;
-            border: 1px solid var(--border);
         }
 
         .dropdown-item-custom {
@@ -536,28 +431,12 @@
             gap: 10px;
             padding: 12px 15px;
             border-radius: 10px;
-            transition: all 0.3s ease;
             cursor: pointer;
             margin-bottom: 5px;
         }
 
-        .dropdown-item-custom:last-child {
-            margin-bottom: 0;
-        }
-
         .dropdown-item-custom:hover {
             background: var(--light);
-            transform: translateX(5px);
-        }
-
-        .dropdown-item-custom i {
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-
-        .dropdown-item-custom span {
-            font-weight: 500;
-            color: var(--dark);
         }
 
         /* Toast */
@@ -574,7 +453,7 @@
             align-items: center;
             gap: 10px;
             transform: translateX(300px);
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.5s;
         }
 
         .toast-custom.show {
@@ -605,7 +484,7 @@
         }
 
         .toast-info .toast-icon {
-            background: var(--info);
+            background: var(--primary);
         }
 
         /* Modal */
@@ -634,31 +513,13 @@
             max-width: 800px;
             width: 90%;
             transform: scale(0.7);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.4s;
             max-height: 90vh;
             overflow-y: auto;
         }
 
         .modal-custom.show .modal-content-custom {
             transform: scale(1);
-        }
-
-        /* Progress Bar */
-        .progress-bar-custom {
-            width: 100%;
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px 0;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: var(--gradient);
-            border-radius: 10px;
-            transition: width 0.3s ease;
-            width: 0%;
         }
 
         /* Card Status */
@@ -679,62 +540,43 @@
             background: #cbd5e1;
         }
 
-        .card-status-dot.active {
-            background: var(--success);
-        }
-
         .card-status-dot.filled {
             background: var(--primary);
         }
 
-        /* Responsive */
-        @media (max-width: 992px) {
-            .a4-page {
-                width: 210mm;
-                padding: 10mm;
-                overflow-x: auto;
-            }
-        }
-
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .main-container {
                 padding-top: 80px;
             }
             
-            .card-body-custom {
-                padding: 15px;
+            .preview-container {
+                padding: 10px;
+                overflow-x: auto;
             }
             
-            .btn-custom {
-                padding: 10px 20px;
-                font-size: 0.9rem;
+            .a4-page {
+                width: 210mm;
+                padding: 5mm;
+                margin: 0;
+                transform-origin: top left;
             }
             
-            .upload-zone {
-                padding: 20px 15px;
-            }
-            
-            .upload-icon {
-                font-size: 2.5rem;
-            }
-            
-            .navbar-brand {
-                font-size: 1.2rem;
-            }
-            
-            .navbar-brand i {
-                font-size: 1.5rem;
+            .card-container {
+                gap: 10mm;
+                padding: 15mm 0;
             }
         }
 
-        /* Print Styles */
+        /* Print Styles - Only A4 */
         @media print {
             @page {
                 size: A4;
                 margin: 0;
             }
             
-            .navbar, .no-print, .sidebar, .action-buttons, .customization-panel, .btn-customize-toggle {
+            .navbar, .no-print, .sidebar, .action-buttons, 
+            .customization-panel, .btn-customize-toggle {
                 display: none !important;
             }
             
@@ -764,6 +606,7 @@
                 padding: 0 !important;
                 margin: 0 !important;
                 border-radius: 0 !important;
+                overflow: visible !important;
             }
             
             .a4-page {
@@ -773,11 +616,14 @@
                 min-height: 297mm !important;
                 padding: 10mm !important;
                 border-radius: 0 !important;
+                overflow: visible !important;
             }
             
             .card-container {
-                padding: 0 !important;
-                gap: 10mm !important;
+                padding: 20mm 0 !important;
+                gap: 20mm !important;
+                min-height: 267mm !important;
+                transform: none !important;
             }
             
             .nid-card-wrapper {
@@ -785,16 +631,12 @@
                 border: none !important;
                 border-radius: 0 !important;
             }
-            
-            .empty-card-message {
-                border: none !important;
-                background: white !important;
-            }
         }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
+            height: 8px;
         }
 
         ::-webkit-scrollbar-track {
@@ -805,16 +647,6 @@
         ::-webkit-scrollbar-thumb {
             background: var(--gradient);
             border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
-        }
-
-        /* Selection */
-        ::selection {
-            background: var(--primary);
-            color: white;
         }
 
         /* Animation */
@@ -852,10 +684,6 @@
                 <i class="fas fa-id-card-alt"></i>
                 <span>NID Card Pro</span>
             </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
@@ -949,16 +777,15 @@
                     <div class="card-body-custom">
                         <!-- Empty State -->
                         <div class="text-center py-5" id="noFileMessage">
-                            <i class="fas fa-id-card fa-5x text-muted mb-3 float-animation"></i>
+                            <i class="fas fa-id-card fa-5x text-muted mb-3"></i>
                             <h5 class="text-muted">কোনো ফাইল আপলোড করা হয়নি</h5>
                             <p class="text-muted small">প্রথমে কার্ড সিলেক্ট করে ফাইল আপলোড করুন</p>
                         </div>
                         
                         <!-- Preview Container -->
                         <div class="preview-container d-none" id="previewContainer">
-                            <!-- A4 Page - Pure White -->
+                            <!-- A4 Page -->
                             <div class="a4-page" id="a4Page">
-                                <!-- Card Container -->
                                 <div class="card-container">
                                     <!-- Card 1 -->
                                     <div class="nid-card-wrapper" id="card1">
@@ -997,7 +824,7 @@
                                 
                                 <!-- Zoom Controls -->
                                 <div class="mb-4">
-                                    <label class="form-label fw-bold">জুম (কার্ড সাইজ)</label>
+                                    <label class="form-label fw-bold">জুম</label>
                                     <div class="zoom-controls">
                                         <button class="zoom-btn" onclick="zoomOut()">
                                             <i class="fas fa-minus"></i>
@@ -1017,10 +844,6 @@
                                         <div class="mb-3">
                                             <label class="form-label">অপাসিটি</label>
                                             <input type="range" class="range-slider" id="card1OpacitySlider" min="50" max="100" value="100" oninput="customOpacity(1, this.value)">
-                                            <div class="d-flex justify-content-between mt-1">
-                                                <small>50%</small>
-                                                <small>100%</small>
-                                            </div>
                                         </div>
                                         
                                         <div class="mb-3">
@@ -1049,10 +872,6 @@
                                         <div class="mb-3">
                                             <label class="form-label">অপাসিটি</label>
                                             <input type="range" class="range-slider" id="card2OpacitySlider" min="50" max="100" value="100" oninput="customOpacity(2, this.value)">
-                                            <div class="d-flex justify-content-between mt-1">
-                                                <small>50%</small>
-                                                <small>100%</small>
-                                            </div>
                                         </div>
                                         
                                         <div class="mb-3">
@@ -1086,48 +905,44 @@
                             <div class="action-buttons">
                                 <h6><i class="fas fa-cogs me-2"></i>ডাউনলোড ও প্রিন্ট</h6>
                                 
-                                <div class="row g-3">
-                                    <div class="col-12">
-                                        <div class="dropdown">
-                                            <button class="btn btn-custom btn-success-gradient w-100 dropdown-toggle" type="button" id="downloadDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fas fa-download me-2"></i>
-                                                ডাউনলোড করুন
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-custom w-100" aria-labelledby="downloadDropdown">
-                                                <li>
-                                                    <div class="dropdown-item-custom" onclick="downloadAs('pdf')">
-                                                        <i class="fas fa-file-pdf"></i>
-                                                        <span>PDF ফাইল ডাউনলোড</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="dropdown-item-custom" onclick="downloadAs('png')">
-                                                        <i class="fas fa-file-image"></i>
-                                                        <span>PNG ইমেজ ডাউনলোড</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="dropdown-item-custom" onclick="downloadAs('jpeg')">
-                                                        <i class="fas fa-file-image"></i>
-                                                        <span>JPEG ইমেজ ডাউনলোড</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="dropdown-item-custom" onclick="downloadAs('webp')">
-                                                        <i class="fas fa-file-image"></i>
-                                                        <span>WEBP ইমেজ ডাউনলোড</span>
-                                                    </div>
-                                                </li>
-                                                <li><hr class="dropdown-divider"></li>
-                                                <li>
-                                                    <div class="dropdown-item-custom" onclick="downloadAs('print')">
-                                                        <i class="fas fa-print"></i>
-                                                        <span>প্রিন্ট করুন</span>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-custom btn-success-gradient w-100 dropdown-toggle" type="button" id="downloadDropdown" data-bs-toggle="dropdown">
+                                        <i class="fas fa-download me-2"></i>
+                                        ডাউনলোড করুন
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-custom w-100">
+                                        <li>
+                                            <div class="dropdown-item-custom" onclick="downloadAs('pdf')">
+                                                <i class="fas fa-file-pdf"></i>
+                                                <span>PDF ফাইল ডাউনলোড</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="dropdown-item-custom" onclick="downloadAs('png')">
+                                                <i class="fas fa-file-image"></i>
+                                                <span>PNG ইমেজ ডাউনলোড</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="dropdown-item-custom" onclick="downloadAs('jpeg')">
+                                                <i class="fas fa-file-image"></i>
+                                                <span>JPEG ইমেজ ডাউনলোড</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="dropdown-item-custom" onclick="downloadAs('webp')">
+                                                <i class="fas fa-file-image"></i>
+                                                <span>WEBP ইমেজ ডাউনলোড</span>
+                                            </div>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <div class="dropdown-item-custom" onclick="downloadAs('print')">
+                                                <i class="fas fa-print"></i>
+                                                <span>প্রিন্ট করুন</span>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -1156,40 +971,20 @@
                 <button class="btn btn-custom btn-success-gradient" onclick="confirmCrop()">
                     <i class="fas fa-check me-2"></i>ক্রপ করুন
                 </button>
-                <button class="btn btn-custom btn-secondary-gradient" onclick="closeCropModal()">
+                <button class="btn btn-custom btn-secondary" onclick="closeCropModal()">
                     <i class="fas fa-times me-2"></i>বাতিল
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Custom Toast -->
+    <!-- Toast -->
     <div class="toast-custom" id="toast">
         <div class="toast-icon" id="toastIcon">
             <i class="fas fa-check"></i>
         </div>
         <div class="toast-message" id="toastMessage"></div>
     </div>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-4 mt-5 no-print">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h6>NID Card Pro</h6>
-                    <p class="small mb-0">© ২০২৬ NID Card Pro - সর্বস্বত্ব সংরক্ষিত</p>
-                </div>
-                <div class="col-md-6">
-                    <div class="social-links">
-                        <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-github"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -1199,21 +994,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     
     <script>
-        // ========== GLOBAL VARIABLES ==========
+        // Global Variables
         let currentZoom = 1;
         let selectedCard = 1;
         let card1Image = null;
         let card2Image = null;
         let cropper = null;
         
-        // Customization variables
+        // Customization
         let card1Settings = { x: 0, y: 0, opacity: 1 };
         let card2Settings = { x: 0, y: 0, opacity: 1 };
 
-        // PDF.js Worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        // ========== INITIALIZATION ==========
+        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
@@ -1226,52 +1020,41 @@
             initToast();
             setupDragAndDrop();
             selectCard(1);
-            applyZoom();
         }
 
-        // ========== CARD SELECTION ==========
+        // Card Selection
         function selectCard(cardNumber) {
             selectedCard = cardNumber;
-            
             document.getElementById('card1SelectBtn').classList.toggle('active', cardNumber === 1);
             document.getElementById('card2SelectBtn').classList.toggle('active', cardNumber === 2);
-            
-            showToast(`কার্ড ${cardNumber === 1 ? '১' : '২'} সিলেক্ট করা হয়েছে`, 'info');
         }
 
-        // ========== FILE UPLOAD ==========
+        // File Upload
         document.getElementById('fileInput').addEventListener('change', handleFileUpload);
 
         function setupDragAndDrop() {
             const uploadZone = document.getElementById('uploadZone');
-
             uploadZone.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 uploadZone.classList.add('dragover');
             });
-
             uploadZone.addEventListener('dragleave', () => {
                 uploadZone.classList.remove('dragover');
             });
-
             uploadZone.addEventListener('drop', (e) => {
                 e.preventDefault();
                 uploadZone.classList.remove('dragover');
-                
-                const files = e.dataTransfer.files;
-                processFiles(files);
+                processFiles(e.dataTransfer.files);
             });
         }
 
         async function handleFileUpload(e) {
-            const files = e.target.files;
-            processFiles(files);
+            processFiles(e.target.files);
         }
 
         async function processFiles(files) {
             const validFiles = Array.from(files).filter(file => {
-                const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/bmp', 'image/gif'];
-                return validTypes.includes(file.type);
+                return ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/bmp', 'image/gif'].includes(file.type);
             });
             
             if (validFiles.length === 0) {
@@ -1281,10 +1064,6 @@
             
             const file = validFiles[0];
             
-            const uploadZone = document.getElementById('uploadZone');
-            uploadZone.style.opacity = '0.6';
-            uploadZone.style.pointerEvents = 'none';
-            
             try {
                 if (file.type === 'application/pdf') {
                     await processPDF(file);
@@ -1292,11 +1071,8 @@
                     await processImage(file);
                 }
             } catch (error) {
-                console.error('Error loading file:', error);
                 showToast('ফাইল লোড করতে সমস্যা হয়েছে!', 'error');
             } finally {
-                uploadZone.style.opacity = '1';
-                uploadZone.style.pointerEvents = 'auto';
                 document.getElementById('fileInput').value = '';
             }
         }
@@ -1304,23 +1080,17 @@
         async function processPDF(file) {
             const arrayBuffer = await file.arrayBuffer();
             const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-            
             const page = await pdf.getPage(1);
             const viewport = page.getViewport({ scale: 3 });
             
             const canvas = document.createElement('canvas');
             canvas.width = viewport.width;
             canvas.height = viewport.height;
-            
             const context = canvas.getContext('2d');
             context.fillStyle = 'white';
             context.fillRect(0, 0, canvas.width, canvas.height);
             
-            await page.render({
-                canvasContext: context,
-                viewport: viewport
-            }).promise;
-            
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
             openCropModal(canvas.toDataURL('image/jpeg', 0.95));
         }
 
@@ -1332,10 +1102,8 @@
                     const canvas = document.createElement('canvas');
                     canvas.width = img.width;
                     canvas.height = img.height;
-                    
                     const context = canvas.getContext('2d');
                     context.drawImage(img, 0, 0);
-                    
                     openCropModal(canvas.toDataURL('image/jpeg', 0.95));
                 };
                 img.src = e.target.result;
@@ -1343,11 +1111,10 @@
             reader.readAsDataURL(file);
         }
 
-        // ========== CROP MODAL ==========
+        // Crop Modal
         function openCropModal(imageSrc) {
             const modal = document.getElementById('cropModal');
             const img = document.getElementById('cropImage');
-            
             img.src = imageSrc;
             modal.classList.add('show');
             
@@ -1355,23 +1122,17 @@
                 if (cropper) {
                     cropper.destroy();
                 }
-                
                 cropper = new Cropper(img, {
                     aspectRatio: 85.6 / 54,
                     autoCropArea: 0.9,
                     viewMode: 1,
-                    movable: true,
-                    zoomable: true,
-                    rotatable: true,
-                    scalable: true
+                    responsive: true
                 });
             }, 200);
         }
 
         function closeCropModal() {
-            const modal = document.getElementById('cropModal');
-            modal.classList.remove('show');
-            
+            document.getElementById('cropModal').classList.remove('show');
             if (cropper) {
                 cropper.destroy();
                 cropper = null;
@@ -1396,37 +1157,25 @@
                 card1Image = imageData;
                 setCardImage(1, imageData);
                 updateCardStatus(1);
-                showToast('কার্ড ১ এ ফাইল যোগ হয়েছে', 'success');
             } else {
                 card2Image = imageData;
                 setCardImage(2, imageData);
                 updateCardStatus(2);
-                showToast('কার্ড ২ এ ফাইল যোগ হয়েছে', 'success');
             }
             
             document.getElementById('noFileMessage').classList.add('d-none');
             document.getElementById('previewContainer').classList.remove('d-none');
-            
             closeCropModal();
         }
 
-        // ========== SET CARD IMAGE ==========
+        // Set Card Image
         function setCardImage(cardNumber, imageSrc) {
             const cardContent = document.getElementById(`card${cardNumber}Content`);
-            
-            cardContent.innerHTML = `
-                <img src="${imageSrc}" alt="Card ${cardNumber}" id="card${cardNumber}Img">
-            `;
-            
+            cardContent.innerHTML = `<img src="${imageSrc}" alt="Card ${cardNumber}" id="card${cardNumber}Img">`;
             applyCustomization(cardNumber);
-            
-            const cardWrapper = document.getElementById(`card${cardNumber}`);
-            cardWrapper.style.animation = 'none';
-            cardWrapper.offsetHeight;
-            cardWrapper.style.animation = 'slideInUp 0.5s ease';
         }
 
-        // ========== REMOVE CARD IMAGE ==========
+        // Remove Card Image
         function removeCardImage(cardNumber) {
             if (cardNumber === 1) {
                 card1Image = null;
@@ -1445,16 +1194,10 @@
                     </div>
                 `;
             }
-            
             updateCardStatus(cardNumber);
-            
-            if (!card1Image && !card2Image) {
-                document.getElementById('noFileMessage').classList.remove('d-none');
-                document.getElementById('previewContainer').classList.add('d-none');
-            }
         }
 
-        // ========== UPDATE CARD STATUS ==========
+        // Update Card Status
         function updateCardStatus(cardNumber) {
             const dot = document.getElementById(`card${cardNumber}StatusDot`);
             const text = document.getElementById(`card${cardNumber}StatusText`);
@@ -1483,10 +1226,9 @@
             }
         }
 
-        // ========== CUSTOMIZATION FUNCTIONS ==========
+        // Customization Functions
         function toggleCustomizationPanel() {
-            const panel = document.getElementById('customizationPanel');
-            panel.classList.toggle('show');
+            document.getElementById('customizationPanel').classList.toggle('show');
         }
 
         function applyCustomization(cardNumber) {
@@ -1502,22 +1244,12 @@
 
         function customMove(cardNumber, direction) {
             const settings = cardNumber === 1 ? card1Settings : card2Settings;
-            
             switch(direction) {
-                case 'up':
-                    settings.y -= 5;
-                    break;
-                case 'down':
-                    settings.y += 5;
-                    break;
-                case 'left':
-                    settings.x -= 5;
-                    break;
-                case 'right':
-                    settings.x += 5;
-                    break;
+                case 'up': settings.y -= 5; break;
+                case 'down': settings.y += 5; break;
+                case 'left': settings.x -= 5; break;
+                case 'right': settings.x += 5; break;
             }
-            
             applyCustomization(cardNumber);
         }
 
@@ -1530,17 +1262,13 @@
         function resetCustomization() {
             card1Settings = { x: 0, y: 0, opacity: 1 };
             card2Settings = { x: 0, y: 0, opacity: 1 };
-            
             document.getElementById('card1OpacitySlider').value = 100;
             document.getElementById('card2OpacitySlider').value = 100;
-            
             applyCustomization(1);
             applyCustomization(2);
-            
-            showToast('কাস্টমাইজেশন রিসেট হয়েছে', 'success');
         }
 
-        // ========== ZOOM CONTROLS ==========
+        // Zoom Controls
         function zoomIn() {
             currentZoom = Math.min(1.5, currentZoom + 0.1);
             applyZoom();
@@ -1557,7 +1285,7 @@
             document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
         }
 
-        // ========== DOWNLOAD FUNCTIONS ==========
+        // Download Functions
         async function downloadAs(type) {
             if (!card1Image && !card2Image) {
                 showToast('অনুগ্রহ করে প্রথমে ফাইল আপলোড করুন', 'warning');
@@ -1577,11 +1305,8 @@
                 } else {
                     await downloadImage(type);
                 }
-                
                 showToast('ডাউনলোড সফল হয়েছে!', 'success');
-                
             } catch (error) {
-                console.error('Error downloading:', error);
                 showToast('Error downloading!', 'error');
             }
             
@@ -1596,27 +1321,19 @@
                 format: 'a4'
             });
             
-            // Pure white background
             doc.setFillColor(255, 255, 255);
             doc.rect(0, 0, 210, 297, 'F');
             
-            // Card dimensions
             const cardWidth = 85.6;
             const cardHeight = 54;
-            
-            // Card 1 position
             const card1X = (210 - cardWidth) / 2 + card1Settings.x * 0.5;
             const card1Y = 20 + card1Settings.y * 0.5;
-            
-            // Card 2 position
             const card2X = (210 - cardWidth) / 2 + card2Settings.x * 0.5;
-            const card2Y = 90 + card2Settings.y * 0.5;
+            const card2Y = 100 + card2Settings.y * 0.5;
             
-            // Add cards
             if (card1Image) {
                 doc.addImage(card1Image, 'JPEG', card1X, card1Y, cardWidth, cardHeight);
             }
-            
             if (card2Image) {
                 doc.addImage(card2Image, 'JPEG', card2X, card2Y, cardWidth, cardHeight);
             }
@@ -1626,7 +1343,6 @@
 
         async function downloadImage(format) {
             const a4Page = document.getElementById('a4Page');
-            
             const originalTransform = a4Page.style.transform;
             a4Page.style.transform = 'none';
             
@@ -1634,11 +1350,7 @@
                 scale: 3,
                 useCORS: true,
                 backgroundColor: '#ffffff',
-                logging: false,
-                onclone: (clonedDoc) => {
-                    const clonedElement = clonedDoc.getElementById('a4Page');
-                    clonedElement.style.transform = 'none';
-                }
+                logging: false
             });
             
             a4Page.style.transform = originalTransform;
@@ -1649,7 +1361,7 @@
             link.click();
         }
 
-        // ========== PRINT ==========
+        // Print Function
         function printPDF() {
             if (!card1Image && !card2Image) {
                 showToast('অনুগ্রহ করে প্রথমে ফাইল আপলোড করুন', 'warning');
@@ -1662,7 +1374,7 @@
             }, 500);
         }
 
-        // ========== RESET ALL ==========
+        // Reset All
         function resetAll() {
             card1Image = null;
             card2Image = null;
@@ -1689,16 +1401,14 @@
             
             currentZoom = 1;
             applyZoom();
-            
             selectCard(1);
             resetCustomization();
             
             showToast('সবকিছু রিসেট হয়েছে!', 'success');
         }
 
-        // ========== TOAST NOTIFICATIONS ==========
+        // Toast
         let toastTimeout;
-
         function initToast() {}
 
         function showToast(message, type = 'success') {
@@ -1714,17 +1424,12 @@
             msg.textContent = message;
             toast.className = `toast-custom toast-${type}`;
             
-            setTimeout(() => {
-                toast.classList.add('show');
-            }, 100);
-            
+            setTimeout(() => toast.classList.add('show'), 100);
             clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
         }
 
-        // ========== LOADER ==========
+        // Loader
         function showLoader() {
             document.getElementById('loader').classList.remove('hidden');
         }
