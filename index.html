@@ -1216,7 +1216,22 @@
             hideLoader();
         }
 
+        // ========== KEY FIX: Download PDF from Preview ==========
         async function downloadPDF() {
+            const a4Page = document.getElementById('a4Page');
+            
+            // Capture the exact preview
+            const canvas = await html2canvas(a4Page, {
+                scale: 3,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                logging: false,
+                windowWidth: 794,
+                windowHeight: 1123
+            });
+            
+            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({
                 orientation: 'portrait',
@@ -1224,39 +1239,23 @@
                 format: 'a4'
             });
             
-            doc.setFillColor(255, 255, 255);
-            doc.rect(0, 0, 210, 297, 'F');
-            
-            const cardWidth = 85.6;
-            const cardHeight = 54;
-            const card1X = (210 - cardWidth) / 2 + card1Settings.x * 0.5;
-            const card1Y = 30 + card1Settings.y * 0.5;
-            const card2X = (210 - cardWidth) / 2 + card2Settings.x * 0.5;
-            const card2Y = 110 + card2Settings.y * 0.5;
-            
-            if (card1Image) {
-                doc.addImage(card1Image, 'JPEG', card1X, card1Y, cardWidth, cardHeight);
-            }
-            if (card2Image) {
-                doc.addImage(card2Image, 'JPEG', card2X, card2Y, cardWidth, cardHeight);
-            }
-            
+            doc.addImage(imgData, 'JPEG', 0, 0, 210, 297);
             doc.save('nid-cards.pdf');
         }
 
+        // ========== KEY FIX: Download Image from Preview ==========
         async function downloadImage(format) {
             const a4Page = document.getElementById('a4Page');
-            const originalTransform = a4Page.style.transform;
-            a4Page.style.transform = 'none';
             
+            // Capture the exact preview in HD
             const canvas = await html2canvas(a4Page, {
                 scale: 3,
                 useCORS: true,
                 backgroundColor: '#ffffff',
-                logging: false
+                logging: false,
+                windowWidth: 794,
+                windowHeight: 1123
             });
-            
-            a4Page.style.transform = originalTransform;
             
             const link = document.createElement('a');
             link.download = `nid-cards.${format}`;
