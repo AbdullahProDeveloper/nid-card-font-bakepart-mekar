@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>NID Card Pro - Professional Processor</title>
-    <meta name="description" content="Professional NID Card processor with advanced features">
+    <meta name="description" content="Professional NID Card processor with advanced customization">
     
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -321,6 +321,7 @@
             border-radius: 20px;
             padding: 20px;
             border: 2px solid var(--border);
+            position: relative;
         }
 
         /* A4 Page */
@@ -336,47 +337,20 @@
             transition: all 0.5s ease;
         }
 
-        .a4-page::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: var(--gradient);
-            border-radius: 10px 10px 0 0;
-        }
-
         /* NID Card */
         .nid-card-wrapper {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-        }
-
-        .nid-card-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient);
-        }
-
-        .nid-card-wrapper:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .nid-card-wrapper img {
             width: 100% !important;
             height: auto !important;
             display: block;
-            border-radius: 0 0 12px 12px;
         }
 
         .empty-card-message {
@@ -385,8 +359,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            background: #f8fafc;
             color: #94a3b8;
+            border: 2px dashed var(--border);
+            border-radius: 12px;
         }
 
         .empty-card-message i {
@@ -399,39 +375,78 @@
             color: #64748b;
         }
 
-        /* Zoom Controls */
-        .zoom-controls {
+        /* Customization Tools */
+        .customization-panel {
             background: white;
-            border-radius: 50px;
-            padding: 5px;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
             box-shadow: var(--shadow-md);
-            display: inline-flex;
-            gap: 5px;
-            align-items: center;
         }
 
-        .zoom-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: none;
-            background: #f1f5f9;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-
-        .zoom-btn:hover {
-            background: var(--primary);
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .zoom-level {
-            padding: 5px 15px;
-            font-weight: 600;
+        .customization-panel h6 {
             color: var(--dark);
-            min-width: 60px;
-            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .customization-panel .form-label {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        .customization-panel .form-control,
+        .customization-panel .form-select {
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+        }
+
+        .customization-panel .form-control:focus,
+        .customization-panel .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-customize {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-customize:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Slider */
+        .range-slider {
+            width: 100%;
+            height: 5px;
+            background: var(--border);
+            border-radius: 5px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         /* Action Buttons Container */
@@ -660,7 +675,7 @@
 
         /* Print Styles */
         @media print {
-            .navbar, .no-print, .sidebar, .action-buttons {
+            .navbar, .no-print, .sidebar, .action-buttons, .customization-panel {
                 display: none !important;
             }
             
@@ -781,7 +796,7 @@
                 <div class="card-custom">
                     <div class="card-header-custom">
                         <i class="fas fa-cloud-upload-alt"></i>
-                        <h5 class="mb-0" data-i18n="upload_title">ফাইল আপলোড করুন</h5>
+                        <h5 class="mb-0">ফাইল আপলোড করুন</h5>
                     </div>
                     
                     <div class="card-body-custom">
@@ -789,11 +804,11 @@
                         <div class="card-selector mb-3">
                             <button class="card-select-btn active" id="card1SelectBtn" onclick="selectCard(1)">
                                 <i class="fas fa-id-card me-1"></i>
-                                <span data-i18n="card1_select">কার্ড ১</span>
+                                <span>কার্ড ১</span>
                             </button>
                             <button class="card-select-btn" id="card2SelectBtn" onclick="selectCard(2)">
                                 <i class="fas fa-id-card me-1"></i>
-                                <span data-i18n="card2_select">কার্ড ২</span>
+                                <span>কার্ড ২</span>
                             </button>
                         </div>
                         
@@ -802,8 +817,8 @@
                             <div class="upload-icon">
                                 <i class="fas fa-cloud-upload-alt"></i>
                             </div>
-                            <h6 class="mb-2" data-i18n="upload_instruction">ক্লিক করুন অথবা ড্র্যাগ করুন</h6>
-                            <p class="text-muted small mb-0" data-i18n="upload_hint">PDF, JPG, PNG সাপোর্টেড</p>
+                            <h6 class="mb-2">ক্লিক করুন অথবা ড্র্যাগ করুন</h6>
+                            <p class="text-muted small mb-0">PDF, JPG, PNG সাপোর্টেড</p>
                             <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.webp,.bmp,.gif" class="d-none">
                         </div>
                         
@@ -825,11 +840,73 @@
                             </div>
                         </div>
                         
-                        <!-- Action Buttons -->
+                        <!-- Advanced Tools -->
+                        <div class="mt-4">
+                            <h6 class="fw-bold mb-3"><i class="fas fa-tools me-2"></i>উন্নত টুলস</h6>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">কার্ড সাইজ</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="changeCardSize('small')">
+                                        <i class="fas fa-compress-alt me-1"></i> ছোট
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="changeCardSize('medium')">
+                                        <i class="fas fa-expand-alt me-1"></i> মাঝারি
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="changeCardSize('large')">
+                                        <i class="fas fa-expand me-1"></i> বড়
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">কার্ড পজিশন</label>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="moveCard('up')">
+                                        <i class="fas fa-arrow-up me-1"></i> উপরে সরান
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="moveCard('down')">
+                                        <i class="fas fa-arrow-down me-1"></i> নিচে সরান
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="moveCard('left')">
+                                        <i class="fas fa-arrow-left me-1"></i> বামে সরান
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="moveCard('right')">
+                                        <i class="fas fa-arrow-right me-1"></i> ডানে সরান
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">রোটেশন</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="rotateCard(-15)">
+                                        <i class="fas fa-undo me-1"></i> -15°
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="rotateCard(15)">
+                                        <i class="fas fa-redo me-1"></i> +15°
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">অপাসিটি</label>
+                                <input type="range" class="range-slider" id="opacitySlider" min="50" max="100" value="100" oninput="changeOpacity(this.value)">
+                                <div class="d-flex justify-content-between mt-1">
+                                    <small>50%</small>
+                                    <small>100%</small>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-custom btn-info-gradient w-100" onclick="resetCustomization()">
+                                <i class="fas fa-undo me-2"></i>ডিফল্ট সেটিংসে ফিরুন
+                            </button>
+                        </div>
+                        
+                        <!-- Reset All -->
                         <div class="mt-4">
                             <button class="btn btn-custom btn-danger-gradient w-100" onclick="resetAll()">
-                                <i class="fas fa-redo me-2"></i>
-                                <span data-i18n="reset">রিসেট</span>
+                                <i class="fas fa-redo me-2"></i>সব রিসেট করুন
                             </button>
                         </div>
                     </div>
@@ -841,7 +918,7 @@
                 <div class="card-custom">
                     <div class="card-header-custom">
                         <i class="fas fa-eye"></i>
-                        <h5 class="mb-0" data-i18n="preview_title">প্রিভিউ</h5>
+                        <h5 class="mb-0">প্রিভিউ</h5>
                         
                         <div class="ms-auto">
                             <div class="zoom-controls">
@@ -860,12 +937,13 @@
                         <!-- Empty State -->
                         <div class="text-center py-5" id="noFileMessage">
                             <i class="fas fa-id-card fa-5x text-muted mb-3 float-animation"></i>
-                            <h5 class="text-muted" data-i18n="no_file">কোনো ফাইল আপলোড করা হয়নি</h5>
-                            <p class="text-muted small" data-i18n="upload_first">প্রথমে কার্ড সিলেক্ট করে ফাইল আপলোড করুন</p>
+                            <h5 class="text-muted">কোনো ফাইল আপলোড করা হয়নি</h5>
+                            <p class="text-muted small">প্রথমে কার্ড সিলেক্ট করে ফাইল আপলোড করুন</p>
                         </div>
                         
                         <!-- Preview Container -->
                         <div class="preview-container d-none" id="previewContainer">
+                            <!-- A4 Page -->
                             <div class="a4-page" id="a4Page">
                                 <!-- Card 1 -->
                                 <div class="nid-card-wrapper" id="card1">
@@ -884,6 +962,85 @@
                                             <i class="fas fa-plus-circle"></i>
                                             <p>কার্ড ২ এ ফাইল দিন</p>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Customization Panel -->
+                            <div class="customization-panel">
+                                <h6><i class="fas fa-sliders-h me-2"></i>কাস্টমাইজেশন</h6>
+                                
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <label class="form-label">কার্ড ১ পজিশন</label>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'up')">
+                                                <i class="fas fa-arrow-up"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'down')">
+                                                <i class="fas fa-arrow-down"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'left')">
+                                                <i class="fas fa-arrow-left"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'right')">
+                                                <i class="fas fa-arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <label class="form-label">কার্ড ২ পজিশন</label>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'up')">
+                                                <i class="fas fa-arrow-up"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'down')">
+                                                <i class="fas fa-arrow-down"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'left')">
+                                                <i class="fas fa-arrow-left"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'right')">
+                                                <i class="fas fa-arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <label class="form-label">কার্ড ১ সাইজ</label>
+                                        <input type="range" class="range-slider" id="card1SizeSlider" min="50" max="100" value="100" oninput="customSize(1, this.value)">
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <label class="form-label">কার্ড ২ সাইজ</label>
+                                        <input type="range" class="range-slider" id="card2SizeSlider" min="50" max="100" value="100" oninput="customSize(2, this.value)">
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <label class="form-label">কার্ড ১ রোটেশন</label>
+                                        <input type="range" class="range-slider" id="card1RotateSlider" min="-180" max="180" value="0" oninput="customRotate(1, this.value)">
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <label class="form-label">কার্ড ২ রোটেশন</label>
+                                        <input type="range" class="range-slider" id="card2RotateSlider" min="-180" max="180" value="0" oninput="customRotate(2, this.value)">
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <label class="form-label">কার্ড ১ অপাসিটি</label>
+                                        <input type="range" class="range-slider" id="card1OpacitySlider" min="50" max="100" value="100" oninput="customOpacity(1, this.value)">
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <label class="form-label">কার্ড ২ অপাসিটি</label>
+                                        <input type="range" class="range-slider" id="card2OpacitySlider" min="50" max="100" value="100" oninput="customOpacity(2, this.value)">
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <button class="btn btn-custom btn-info-gradient w-100" onclick="resetCustomization()">
+                                            <i class="fas fa-undo me-2"></i>সব রিসেট করুন
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -983,7 +1140,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <h6>NID Card Pro</h6>
-                    <p class="small mb-0" data-i18n="footer_copyright">© ২০২৬ NID Card Pro - সর্বস্বত্ব সংরক্ষিত</p>
+                    <p class="small mb-0">© ২০২৬ NID Card Pro - সর্বস্বত্ব সংরক্ষিত</p>
                 </div>
                 <div class="col-md-6">
                     <div class="social-links">
@@ -1005,112 +1162,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     
     <script>
-        // ========== LANGUAGE TRANSLATIONS ==========
-        const translations = {
-            bn: {
-                upload_title: 'ফাইল আপলোড করুন',
-                upload_instruction: 'ক্লিক করুন অথবা ড্র্যাগ করুন',
-                upload_hint: 'PDF, JPG, PNG সাপোর্টেড',
-                card1_select: 'কার্ড ১',
-                card2_select: 'কার্ড ২',
-                download_pdf: 'PDF ডাউনলোড',
-                print: 'প্রিন্ট',
-                reset: 'রিসেট',
-                preview_title: 'প্রিভিউ',
-                no_file: 'কোনো ফাইল আপলোড করা হয়নি',
-                upload_first: 'প্রথমে কার্ড সিলেক্ট করে ফাইল আপলোড করুন',
-                footer_copyright: '© ২০২৬ NID Card Pro - সর্বস্বত্ব সংরক্ষিত',
-                success_upload: 'ফাইল সফলভাবে লোড হয়েছে!',
-                error_upload: 'ফাইল লোড করতে সমস্যা হয়েছে!',
-                invalid_file: 'অবৈধ ফাইল!',
-                pdf_required: 'অনুগ্রহ করে প্রথমে ফাইল আপলোড করুন',
-                download_success: 'ডাউনলোড সফল হয়েছে!',
-                print_success: 'প্রিন্ট শুরু হয়েছে!',
-                reset_success: 'সবকিছু রিসেট হয়েছে!',
-                crop_success: 'ক্রপ সফল হয়েছে!',
-                crop_required: 'অনুগ্রহ করে ক্রপ করুন!',
-                card1_filled: 'কার্ড ১ এ ফাইল যোগ হয়েছে',
-                card2_filled: 'কার্ড ২ এ ফাইল যোগ হয়েছে',
-                select_card: 'কার্ড সিলেক্ট করুন',
-                card1_empty: 'কার্ড ১: খালি',
-                card2_empty: 'কার্ড ২: খালি',
-                card1_filled_status: 'কার্ড ১: ফাইল আছে',
-                card2_filled_status: 'কার্ড ২: ফাইল আছে',
-                crop_title: 'ক্রপ করুন',
-                download_options: 'ডাউনলোড ও প্রিন্ট',
-                download_btn: 'ডাউনলোড করুন',
-                pdf_download: 'PDF ফাইল ডাউনলোড',
-                png_download: 'PNG ইমেজ ডাউনলোড',
-                jpeg_download: 'JPEG ইমেজ ডাউনলোড',
-                webp_download: 'WEBP ইমেজ ডাউনলোড',
-                print_btn: 'প্রিন্ট করুন'
-            },
-            en: {
-                upload_title: 'Upload File',
-                upload_instruction: 'Click or drag file',
-                upload_hint: 'PDF, JPG, PNG supported',
-                card1_select: 'Card 1',
-                card2_select: 'Card 2',
-                download_pdf: 'Download PDF',
-                print: 'Print',
-                reset: 'Reset',
-                preview_title: 'Preview',
-                no_file: 'No file uploaded yet',
-                upload_first: 'Select a card and upload a file first',
-                footer_copyright: '© 2026 NID Card Pro - All Rights Reserved',
-                success_upload: 'File loaded successfully!',
-                error_upload: 'Error loading file!',
-                invalid_file: 'Invalid file!',
-                pdf_required: 'Please upload a file first',
-                download_success: 'Download successful!',
-                print_success: 'Print started!',
-                reset_success: 'Everything has been reset!',
-                crop_success: 'Crop successful!',
-                crop_required: 'Please crop the image!',
-                card1_filled: 'Card 1 filled',
-                card2_filled: 'Card 2 filled',
-                select_card: 'Select a card',
-                card1_empty: 'Card 1: Empty',
-                card2_empty: 'Card 2: Empty',
-                card1_filled_status: 'Card 1: Filled',
-                card2_filled_status: 'Card 2: Filled',
-                crop_title: 'Crop Image',
-                download_options: 'Download & Print',
-                download_btn: 'Download',
-                pdf_download: 'Download PDF File',
-                png_download: 'Download PNG Image',
-                jpeg_download: 'Download JPEG Image',
-                webp_download: 'Download WEBP Image',
-                print_btn: 'Print'
-            }
-        };
-
         // ========== GLOBAL VARIABLES ==========
-        let currentLanguage = 'bn';
         let currentZoom = 1;
         let selectedCard = 1;
         let card1Image = null;
         let card2Image = null;
         let cropper = null;
+        
+        // Customization variables
+        let card1Settings = { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1 };
+        let card2Settings = { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1 };
 
         // PDF.js Worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
         // ========== INITIALIZATION ==========
         document.addEventListener('DOMContentLoaded', () => {
-            // Hide loader after 2 seconds
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
             }, 2000);
             
-            // Initialize
             initialize();
         });
 
         function initialize() {
-            // Set default language
-            switchLanguage('bn');
-            
             // Set default zoom
             applyZoom();
             
@@ -1124,47 +1199,18 @@
             selectCard(1);
         }
 
-        // ========== LANGUAGE SWITCH ==========
-        function switchLanguage(lang) {
-            currentLanguage = lang;
-            
-            // Update all text elements
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    element.textContent = translations[lang][key];
-                }
-            });
-            
-            // Update navbar language buttons
-            document.querySelectorAll('.btn-language').forEach(btn => {
-                if (btn.textContent.includes('বাংলা')) {
-                    btn.classList.toggle('active', lang === 'bn');
-                } else {
-                    btn.classList.toggle('active', lang === 'en');
-                }
-            });
-            
-            // Update card status
-            updateCardStatus(1);
-            updateCardStatus(2);
-        }
-
         // ========== CARD SELECTION ==========
         function selectCard(cardNumber) {
             selectedCard = cardNumber;
             
-            // Update UI
             document.getElementById('card1SelectBtn').classList.toggle('active', cardNumber === 1);
             document.getElementById('card2SelectBtn').classList.toggle('active', cardNumber === 2);
             
-            // Update upload zone text
             const uploadZone = document.getElementById('uploadZone');
             uploadZone.classList.add('animate-in');
             setTimeout(() => uploadZone.classList.remove('animate-in'), 500);
             
-            // Show toast
-            showToast(`${translations[currentLanguage].select_card}: ${cardNumber === 1 ? '১' : '২'}`, 'info');
+            showToast(`কার্ড ${cardNumber === 1 ? '১' : '২'} সিলেক্ট করা হয়েছে`, 'info');
         }
 
         // ========== FILE UPLOAD ==========
@@ -1203,20 +1249,17 @@
             });
             
             if (validFiles.length === 0) {
-                showToast(translations[currentLanguage].invalid_file, 'error');
+                showToast('অবৈধ ফাইল!', 'error');
                 return;
             }
             
-            // Process the first valid file
             const file = validFiles[0];
             
-            // Show loading state
             const uploadZone = document.getElementById('uploadZone');
             uploadZone.style.opacity = '0.6';
             uploadZone.style.pointerEvents = 'none';
             
             try {
-                // Process file based on type
                 if (file.type === 'application/pdf') {
                     await processPDF(file);
                 } else {
@@ -1224,9 +1267,8 @@
                 }
             } catch (error) {
                 console.error('Error loading file:', error);
-                showToast(translations[currentLanguage].error_upload, 'error');
+                showToast('ফাইল লোড করতে সমস্যা হয়েছে!', 'error');
             } finally {
-                // Reset upload zone
                 uploadZone.style.opacity = '1';
                 uploadZone.style.pointerEvents = 'auto';
                 document.getElementById('fileInput').value = '';
@@ -1237,7 +1279,6 @@
             const arrayBuffer = await file.arrayBuffer();
             const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
             
-            // Render first page to canvas
             const page = await pdf.getPage(1);
             const viewport = page.getViewport({ scale: 3 });
             
@@ -1254,7 +1295,6 @@
                 viewport: viewport
             }).promise;
             
-            // Show crop modal
             openCropModal(canvas.toDataURL('image/jpeg', 0.95));
         }
 
@@ -1270,7 +1310,6 @@
                     const context = canvas.getContext('2d');
                     context.drawImage(img, 0, 0);
                     
-                    // Show crop modal
                     openCropModal(canvas.toDataURL('image/jpeg', 0.95));
                 };
                 img.src = e.target.result;
@@ -1315,7 +1354,7 @@
 
         function confirmCrop() {
             if (!cropper) {
-                showToast(translations[currentLanguage].crop_required, 'warning');
+                showToast('অনুগ্রহ করে ক্রপ করুন!', 'warning');
                 return;
             }
             
@@ -1327,20 +1366,18 @@
             
             const imageData = canvas.toDataURL('image/jpeg', 0.95);
             
-            // Set image to selected card
             if (selectedCard === 1) {
                 card1Image = imageData;
                 setCardImage(1, imageData);
                 updateCardStatus(1);
-                showToast(translations[currentLanguage].card1_filled, 'success');
+                showToast('কার্ড ১ এ ফাইল যোগ হয়েছে', 'success');
             } else {
                 card2Image = imageData;
                 setCardImage(2, imageData);
                 updateCardStatus(2);
-                showToast(translations[currentLanguage].card2_filled, 'success');
+                showToast('কার্ড ২ এ ফাইল যোগ হয়েছে', 'success');
             }
             
-            // Show preview
             document.getElementById('noFileMessage').classList.add('d-none');
             document.getElementById('previewContainer').classList.remove('d-none');
             
@@ -1352,10 +1389,12 @@
             const cardContent = document.getElementById(`card${cardNumber}Content`);
             
             cardContent.innerHTML = `
-                <img src="${imageSrc}" alt="Card ${cardNumber}">
+                <img src="${imageSrc}" alt="Card ${cardNumber}" id="card${cardNumber}Img">
             `;
             
-            // Add animation
+            // Apply customization
+            applyCustomization(cardNumber);
+            
             const cardWrapper = document.getElementById(`card${cardNumber}`);
             cardWrapper.style.animation = 'none';
             cardWrapper.offsetHeight;
@@ -1384,7 +1423,6 @@
             
             updateCardStatus(cardNumber);
             
-            // Check if any cards are filled
             if (!card1Image && !card2Image) {
                 document.getElementById('noFileMessage').classList.remove('d-none');
                 document.getElementById('previewContainer').classList.add('d-none');
@@ -1400,24 +1438,142 @@
             if (cardNumber === 1) {
                 if (card1Image) {
                     dot.className = 'card-status-dot filled';
-                    text.textContent = translations[currentLanguage].card1_filled_status;
+                    text.textContent = 'কার্ড ১: ফাইল আছে';
                     removeBtn.style.display = 'block';
                 } else {
                     dot.className = 'card-status-dot';
-                    text.textContent = translations[currentLanguage].card1_empty;
+                    text.textContent = 'কার্ড ১: খালি';
                     removeBtn.style.display = 'none';
                 }
             } else {
                 if (card2Image) {
                     dot.className = 'card-status-dot filled';
-                    text.textContent = translations[currentLanguage].card2_filled_status;
+                    text.textContent = 'কার্ড ২: ফাইল আছে';
                     removeBtn.style.display = 'block';
                 } else {
                     dot.className = 'card-status-dot';
-                    text.textContent = translations[currentLanguage].card2_empty;
+                    text.textContent = 'কার্ড ২: খালি';
                     removeBtn.style.display = 'none';
                 }
             }
+        }
+
+        // ========== CUSTOMIZATION FUNCTIONS ==========
+        function applyCustomization(cardNumber) {
+            const settings = cardNumber === 1 ? card1Settings : card2Settings;
+            const cardWrapper = document.getElementById(`card${cardNumber}`);
+            const cardImg = document.getElementById(`card${cardNumber}Img`);
+            
+            if (cardImg) {
+                cardWrapper.style.transform = `translate(${settings.x}px, ${settings.y}px)`;
+                cardImg.style.transform = `scale(${settings.scale}) rotate(${settings.rotation}deg)`;
+                cardImg.style.opacity = settings.opacity;
+            }
+        }
+
+        function customMove(cardNumber, direction) {
+            const settings = cardNumber === 1 ? card1Settings : card2Settings;
+            
+            switch(direction) {
+                case 'up':
+                    settings.y -= 10;
+                    break;
+                case 'down':
+                    settings.y += 10;
+                    break;
+                case 'left':
+                    settings.x -= 10;
+                    break;
+                case 'right':
+                    settings.x += 10;
+                    break;
+            }
+            
+            applyCustomization(cardNumber);
+        }
+
+        function customSize(cardNumber, value) {
+            const settings = cardNumber === 1 ? card1Settings : card2Settings;
+            settings.scale = value / 100;
+            applyCustomization(cardNumber);
+        }
+
+        function customRotate(cardNumber, value) {
+            const settings = cardNumber === 1 ? card1Settings : card2Settings;
+            settings.rotation = parseInt(value);
+            applyCustomization(cardNumber);
+        }
+
+        function customOpacity(cardNumber, value) {
+            const settings = cardNumber === 1 ? card1Settings : card2Settings;
+            settings.opacity = value / 100;
+            applyCustomization(cardNumber);
+        }
+
+        // Quick controls
+        function changeCardSize(size) {
+            const scale = size === 'small' ? 0.7 : size === 'medium' ? 0.85 : 1;
+            
+            if (selectedCard === 1) {
+                card1Settings.scale = scale;
+                document.getElementById('card1SizeSlider').value = scale * 100;
+                applyCustomization(1);
+            } else {
+                card2Settings.scale = scale;
+                document.getElementById('card2SizeSlider').value = scale * 100;
+                applyCustomization(2);
+            }
+        }
+
+        function moveCard(direction) {
+            customMove(selectedCard, direction);
+        }
+
+        function rotateCard(degrees) {
+            const settings = selectedCard === 1 ? card1Settings : card2Settings;
+            settings.rotation += degrees;
+            
+            if (selectedCard === 1) {
+                document.getElementById('card1RotateSlider').value = settings.rotation;
+                applyCustomization(1);
+            } else {
+                document.getElementById('card2RotateSlider').value = settings.rotation;
+                applyCustomization(2);
+            }
+        }
+
+        function changeOpacity(value) {
+            const opacity = value / 100;
+            
+            if (selectedCard === 1) {
+                card1Settings.opacity = opacity;
+                document.getElementById('card1OpacitySlider').value = value;
+                applyCustomization(1);
+            } else {
+                card2Settings.opacity = opacity;
+                document.getElementById('card2OpacitySlider').value = value;
+                applyCustomization(2);
+            }
+        }
+
+        function resetCustomization() {
+            card1Settings = { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1 };
+            card2Settings = { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1 };
+            
+            // Reset sliders
+            document.getElementById('card1SizeSlider').value = 100;
+            document.getElementById('card2SizeSlider').value = 100;
+            document.getElementById('card1RotateSlider').value = 0;
+            document.getElementById('card2RotateSlider').value = 0;
+            document.getElementById('card1OpacitySlider').value = 100;
+            document.getElementById('card2OpacitySlider').value = 100;
+            document.getElementById('opacitySlider').value = 100;
+            
+            // Apply to cards
+            applyCustomization(1);
+            applyCustomization(2);
+            
+            showToast('কাস্টমাইজেশন রিসেট হয়েছে', 'success');
         }
 
         // ========== ZOOM CONTROLS ==========
@@ -1440,7 +1596,7 @@
         // ========== DOWNLOAD FUNCTIONS ==========
         async function downloadAs(type) {
             if (!card1Image && !card2Image) {
-                showToast(translations[currentLanguage].pdf_required, 'warning');
+                showToast('অনুগ্রহ করে প্রথমে ফাইল আপলোড করুন', 'warning');
                 return;
             }
             
@@ -1458,7 +1614,7 @@
                     await downloadImage(type);
                 }
                 
-                showToast(translations[currentLanguage].download_success, 'success');
+                showToast('ডাউনলোড সফল হয়েছে!', 'success');
                 
             } catch (error) {
                 console.error('Error downloading:', error);
@@ -1476,54 +1632,33 @@
                 format: 'a4'
             });
             
-            // Add background
-            doc.setFillColor(248, 250, 252);
+            // White background
+            doc.setFillColor(255, 255, 255);
             doc.rect(0, 0, 210, 297, 'F');
             
-            // Add title
-            doc.setFontSize(16);
-            doc.setFont('helvetica', 'bold');
-            doc.setTextColor(37, 99, 235);
-            doc.text('National ID Card', 105, 20, { align: 'center' });
-            
-            // Add decorative line
-            doc.setDrawColor(37, 99, 235);
-            doc.setLineWidth(1);
-            doc.line(30, 25, 180, 25);
-            
-            // Add cards
+            // Add cards based on preview positions
             if (card1Image) {
-                addImageToPDF(doc, card1Image, 35);
+                const settings = card1Settings;
+                const yOffset = 20 + settings.y * 0.5;
+                const xOffset = 20 + settings.x * 0.5;
+                
+                doc.addImage(card1Image, 'JPEG', xOffset, yOffset, 170 * settings.scale, 110 * settings.scale);
             }
+            
             if (card2Image) {
-                addImageToPDF(doc, card2Image, 140);
+                const settings = card2Settings;
+                const yOffset = 140 + settings.y * 0.5;
+                const xOffset = 20 + settings.x * 0.5;
+                
+                doc.addImage(card2Image, 'JPEG', xOffset, yOffset, 170 * settings.scale, 110 * settings.scale);
             }
             
-            // Add footer
-            doc.setFontSize(8);
-            doc.setTextColor(100, 116, 139);
-            doc.text('Generated by NID Card Pro', 105, 290, { align: 'center' });
-            
-            // Save
             doc.save('nid-cards.pdf');
-        }
-
-        function addImageToPDF(doc, imageSrc, yOffset) {
-            const maxWidth = 170;
-            const maxHeight = 110;
-            
-            doc.addImage(imageSrc, 'JPEG', 20, yOffset, maxWidth, maxHeight);
-            
-            // Add border
-            doc.setDrawColor(203, 213, 225);
-            doc.setLineWidth(0.5);
-            doc.roundedRect(20, yOffset, maxWidth, maxHeight, 5, 5);
         }
 
         async function downloadImage(format) {
             const a4Page = document.getElementById('a4Page');
             
-            // Remove transform for proper rendering
             const originalTransform = a4Page.style.transform;
             a4Page.style.transform = 'none';
             
@@ -1538,10 +1673,8 @@
                 }
             });
             
-            // Restore transform
             a4Page.style.transform = originalTransform;
             
-            // Create download link
             const link = document.createElement('a');
             link.download = `nid-cards.${format}`;
             link.href = canvas.toDataURL(`image/${format}`, 1.0);
@@ -1551,23 +1684,21 @@
         // ========== PRINT ==========
         function printPDF() {
             if (!card1Image && !card2Image) {
-                showToast(translations[currentLanguage].pdf_required, 'warning');
+                showToast('অনুগ্রহ করে প্রথমে ফাইল আপলোড করুন', 'warning');
                 return;
             }
             
-            showToast(translations[currentLanguage].print_success, 'success');
+            showToast('প্রিন্ট শুরু হয়েছে!', 'success');
             setTimeout(() => {
                 window.print();
             }, 500);
         }
 
-        // ========== RESET ==========
+        // ========== RESET ALL ==========
         function resetAll() {
-            // Reset cards
             card1Image = null;
             card2Image = null;
             
-            // Reset card contents
             document.getElementById('card1Content').innerHTML = `
                 <div class="empty-card-message">
                     <i class="fas fa-plus-circle"></i>
@@ -1582,55 +1713,45 @@
                 </div>
             `;
             
-            // Update status
             updateCardStatus(1);
             updateCardStatus(2);
             
-            // Hide preview
             document.getElementById('noFileMessage').classList.remove('d-none');
             document.getElementById('previewContainer').classList.add('d-none');
             
-            // Reset zoom
             currentZoom = 1;
             applyZoom();
             
-            // Reset card selection
             selectCard(1);
             
-            // Show toast
-            showToast(translations[currentLanguage].reset_success, 'success');
+            // Reset customization
+            resetCustomization();
+            
+            showToast('সবকিছু রিসেট হয়েছে!', 'success');
         }
 
         // ========== TOAST NOTIFICATIONS ==========
         let toastTimeout;
 
-        function initToast() {
-            // Toast is already in HTML
-        }
+        function initToast() {}
 
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             const icon = document.getElementById('toastIcon');
             const msg = document.getElementById('toastMessage');
             
-            // Set icon
             icon.innerHTML = type === 'success' ? '<i class="fas fa-check"></i>' :
                             type === 'error' ? '<i class="fas fa-times"></i>' :
                             type === 'warning' ? '<i class="fas fa-exclamation"></i>' :
                             '<i class="fas fa-info"></i>';
             
-            // Set message
             msg.textContent = message;
-            
-            // Set toast class
             toast.className = `toast-custom toast-${type}`;
             
-            // Show toast
             setTimeout(() => {
                 toast.classList.add('show');
             }, 100);
             
-            // Auto hide after 4 seconds
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => {
                 toast.classList.remove('show');
