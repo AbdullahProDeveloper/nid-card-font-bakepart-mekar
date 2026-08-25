@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>NID Card Pro - Professional Processor</title>
+    <title>NID Card Pro</title>
     
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -12,29 +12,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Cropper.js -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" rel="stylesheet">
     
     <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --border: #e2e8f0;
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 20px rgba(0,0,0,0.12);
-            --shadow-lg: 0 8px 40px rgba(0,0,0,0.15);
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-width: 85.6mm;
-            --card-height: 54mm;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -42,187 +25,81 @@
         }
 
         body {
-            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: #f8fafc;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Loading Screen */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.98);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            transition: all 0.5s ease;
-        }
-
-        .loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .loader-content {
-            text-align: center;
-        }
-
-        .loader-ring {
-            width: 60px;
-            height: 60px;
-            border: 4px solid #e2e8f0;
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         /* Navbar */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            padding: 15px 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 10px 0;
+            z-index: 1000;
         }
 
         .navbar-brand {
             font-weight: 700;
-            font-size: 1.5rem;
-            background: var(--gradient);
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .navbar-brand i {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 2rem;
-        }
-
-        .btn-language {
-            border-radius: 50px;
-            padding: 8px 20px;
-            font-weight: 600;
-            transition: all 0.3s ease;
         }
 
         /* Main Container */
         .main-container {
-            padding-top: 100px;
-            padding-bottom: 50px;
+            padding-top: 80px;
+            padding-bottom: 30px;
         }
 
         /* Cards */
         .card-custom {
             border: none;
-            border-radius: 20px;
+            border-radius: 15px;
             background: white;
-            box-shadow: var(--shadow-lg);
-            transition: all 0.3s ease;
-            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
         .card-header-custom {
-            background: var(--gradient);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 20px;
-            border-radius: 20px 20px 0 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            padding: 15px;
+            border-radius: 15px 15px 0 0;
         }
 
         .card-body-custom {
-            padding: 25px;
-        }
-
-        /* Card Selection */
-        .card-selector {
-            background: #f1f5f9;
-            border-radius: 15px;
-            padding: 5px;
-            display: flex;
-            gap: 5px;
-            margin-bottom: 20px;
-        }
-
-        .card-select-btn {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            color: #64748b;
-            cursor: pointer;
-        }
-
-        .card-select-btn.active {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 20px;
         }
 
         /* Upload Zone */
         .upload-zone {
-            border: 3px dashed var(--primary);
-            border-radius: 20px;
-            padding: 30px 20px;
+            border: 2px dashed #667eea;
+            border-radius: 15px;
+            padding: 25px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s ease;
             background: #f8fafc;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s;
         }
 
         .upload-zone:hover {
-            border-color: var(--secondary);
-            transform: scale(1.02);
-        }
-
-        .upload-zone.dragover {
-            border-color: var(--success);
-            background: #d1fae5;
+            background: #eff6ff;
+            border-color: #4f46e5;
         }
 
         .upload-icon {
-            font-size: 3rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 10px;
         }
 
         /* Buttons */
         .btn-custom {
-            border-radius: 12px;
-            padding: 12px 24px;
+            border-radius: 10px;
+            padding: 10px 20px;
             font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
         }
 
         .btn-success-gradient {
@@ -237,49 +114,58 @@
             border: none;
         }
 
-        .btn-info-gradient {
-            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-            color: white;
-            border: none;
-        }
-
-        /* Preview Area - Scrollable */
+        /* Preview Area */
         .preview-container {
             background: #f8fafc;
-            border-radius: 20px;
-            padding: 20px;
-            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        /* A4 Page - Mobile Scroll Fix */
+        .a4-page-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 10px;
+            background: #e2e8f0;
+            padding: 10px;
+        }
+
+        .a4-page {
+            width: 794px; /* 210mm at 96dpi */
+            min-height: 1123px; /* 297mm at 96dpi */
+            background: white;
+            margin: 0 auto;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
             position: relative;
         }
 
-        /* A4 Page - Scrollable */
-        .a4-page {
-            width: 210mm;
-            min-height: 297mm;
-            background: white;
-            margin: 0 auto;
-            padding: 15mm;
-            box-shadow: 0 0 40px rgba(0,0,0,0.2);
-            border-radius: 10px;
-            position: relative;
-            overflow-y: auto;
-            max-height: 600px;
-            -webkit-overflow-scrolling: touch;
+        /* Card Container */
+        .card-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            padding: 50px 0;
+            min-height: 1043px;
         }
 
         /* NID Card */
         .nid-card-wrapper {
-            width: var(--card-width);
-            height: var(--card-height);
+            width: 323px; /* 85.6mm at 96dpi */
+            height: 204px; /* 54mm at 96dpi */
             background: white;
             overflow: hidden;
             position: relative;
-            margin: 0 auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .nid-card-wrapper img {
-            width: 100% !important;
-            height: 100% !important;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             display: block;
         }
@@ -293,28 +179,12 @@
             align-items: center;
             background: #f8fafc;
             color: #94a3b8;
-            border: 2px dashed var(--border);
+            border: 2px dashed #cbd5e1;
         }
 
         .empty-card-message i {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        .empty-card-message p {
-            font-size: 0.9rem;
-            color: #64748b;
-        }
-
-        /* Card Container */
-        .card-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20mm;
-            padding: 25mm 0;
-            min-height: 267mm;
+            font-size: 2rem;
+            margin-bottom: 8px;
         }
 
         /* Customization Panel */
@@ -322,56 +192,13 @@
             background: white;
             border-radius: 15px;
             padding: 20px;
-            margin-top: 20px;
-            box-shadow: var(--shadow-md);
+            margin-top: 15px;
             display: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .customization-panel.show {
             display: block;
-            animation: slideInUp 0.3s ease;
-        }
-
-        .customization-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .btn-customize-toggle {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 20px;
-            font-weight: 600;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        /* Slider */
-        .range-slider {
-            width: 100%;
-            height: 5px;
-            background: var(--border);
-            border-radius: 5px;
-            outline: none;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        .range-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: var(--primary);
-            cursor: pointer;
-            border: 2px solid white;
         }
 
         /* Zoom Controls */
@@ -383,27 +210,26 @@
         }
 
         .zoom-btn {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             border: none;
             background: #f1f5f9;
-            font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s;
         }
 
         .zoom-btn:hover {
-            background: var(--primary);
+            background: #667eea;
             color: white;
         }
 
         .zoom-level {
             padding: 5px 15px;
             font-weight: 600;
-            color: var(--dark);
             background: white;
             border-radius: 10px;
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         /* Action Buttons */
@@ -411,31 +237,29 @@
             background: white;
             border-radius: 15px;
             padding: 20px;
-            margin-top: 20px;
-            box-shadow: var(--shadow-md);
+            margin-top: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         /* Download Dropdown */
-        .dropdown-menu-custom {
-            background: white;
+        .dropdown-menu {
             border-radius: 15px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             padding: 10px;
             min-width: 250px;
         }
 
-        .dropdown-item-custom {
+        .dropdown-item {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 12px 15px;
+            padding: 10px 15px;
             border-radius: 10px;
-            cursor: pointer;
-            margin-bottom: 5px;
+            transition: all 0.3s;
         }
 
-        .dropdown-item-custom:hover {
-            background: var(--light);
+        .dropdown-item:hover {
+            background: #f8fafc;
         }
 
         /* Toast */
@@ -445,8 +269,8 @@
             right: 20px;
             z-index: 9999;
             background: white;
-            border-radius: 15px;
-            box-shadow: var(--shadow-lg);
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             padding: 15px 20px;
             display: flex;
             align-items: center;
@@ -460,30 +284,21 @@
         }
 
         .toast-icon {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
-            font-size: 1.2rem;
         }
 
         .toast-success .toast-icon {
-            background: var(--success);
+            background: #10b981;
         }
 
         .toast-error .toast-icon {
-            background: var(--danger);
-        }
-
-        .toast-warning .toast-icon {
-            background: var(--warning);
-        }
-
-        .toast-info .toast-icon {
-            background: var(--primary);
+            background: #ef4444;
         }
 
         /* Modal */
@@ -495,7 +310,6 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(10px);
             z-index: 10000;
             justify-content: center;
             align-items: center;
@@ -505,130 +319,120 @@
             display: flex;
         }
 
-        .modal-content-custom {
+        .modal-content {
             background: white;
-            border-radius: 20px;
+            border-radius: 15px;
             padding: 20px;
             max-width: 800px;
             width: 90%;
-            transform: scale(0.7);
-            transition: all 0.4s;
             max-height: 90vh;
             overflow-y: auto;
-        }
-
-        .modal-custom.show .modal-content-custom {
-            transform: scale(1);
         }
 
         /* Card Status */
         .card-status {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-radius: 10px;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 8px;
             background: #f1f5f9;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .card-status-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: #cbd5e1;
         }
 
         .card-status-dot.filled {
-            background: var(--primary);
+            background: #10b981;
+        }
+
+        /* Slider */
+        .range-slider {
+            width: 100%;
+            height: 5px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: 2px solid white;
         }
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .main-container {
-                padding-top: 80px;
+                padding-top: 70px;
             }
             
-            .preview-container {
-                padding: 10px;
+            .a4-page-wrapper {
+                padding: 5px;
+                overflow-x: auto;
             }
             
             .a4-page {
-                max-height: 500px;
-                padding: 5mm;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
+                padding: 20px;
+                margin: 0;
             }
             
             .card-container {
-                gap: 10mm;
-                padding: 15mm 0;
+                gap: 30px;
+                padding: 30px 0;
             }
         }
 
-        /* Print Styles - Only A4 */
+        /* Print Styles - Only A4 Content */
         @media print {
             @page {
                 size: A4;
                 margin: 0;
             }
             
-            .navbar, .no-print, .sidebar, .action-buttons, 
-            .customization-panel, .btn-customize-toggle {
-                display: none !important;
+            body * {
+                visibility: hidden;
             }
             
-            body {
-                background: white !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-            
-            .main-container {
-                padding: 0 !important;
-                margin: 0 !important;
-                max-width: 100% !important;
-            }
-            
-            .card-custom {
-                box-shadow: none !important;
-                border: none !important;
-                border-radius: 0 !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-            
-            .preview-container {
-                border: none !important;
-                background: white !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                border-radius: 0 !important;
-                overflow: visible !important;
+            .a4-page, .a4-page * {
+                visibility: visible;
             }
             
             .a4-page {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 210mm;
+                min-height: 297mm;
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .preview-container, .card-custom, .card-body-custom {
+                background: white !important;
                 box-shadow: none !important;
-                margin: 0 !important;
-                width: 210mm !important;
-                min-height: 297mm !important;
-                padding: 10mm !important;
-                border-radius: 0 !important;
+            }
+            
+            .a4-page-wrapper {
                 overflow: visible !important;
-                max-height: none !important;
+                background: white !important;
+                padding: 0 !important;
             }
             
             .card-container {
-                padding: 20mm 0 !important;
-                gap: 20mm !important;
-                min-height: 267mm !important;
-                transform: none !important;
-            }
-            
-            .nid-card-wrapper {
-                box-shadow: none !important;
-                border: none !important;
-                border-radius: 0 !important;
+                padding: 30px 0 !important;
+                gap: 40px !important;
             }
         }
 
@@ -644,62 +448,24 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--gradient);
+            background: #cbd5e1;
             border-radius: 10px;
         }
 
-        /* Animation */
-        .animate-in {
-            animation: slideInUp 0.5s ease;
-        }
-
-        @keyframes slideInUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
     </style>
 </head>
 <body>
 
-    <!-- Loader -->
-    <div class="loader" id="loader">
-        <div class="loader-content">
-            <div class="loader-ring"></div>
-            <h5 class="mt-3">Loading NID Card Pro...</h5>
-            <p class="text-muted">Please wait</p>
-        </div>
-    </div>
-
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">
                 <i class="fas fa-id-card-alt"></i>
-                <span>NID Card Pro</span>
+                NID Card Pro
             </a>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item me-2">
-                        <button class="btn btn-language btn-primary-gradient" onclick="switchLanguage('bn')">
-                            <i class="fas fa-language me-1"></i>
-                            বাংলা
-                        </button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn btn-language btn-primary-gradient" onclick="switchLanguage('en')">
-                            <i class="fas fa-language me-1"></i>
-                            English
-                        </button>
-                    </li>
-                </ul>
-            </div>
         </div>
     </nav>
 
@@ -707,23 +473,21 @@
     <div class="container main-container">
         <div class="row">
             <!-- Left Sidebar -->
-            <div class="col-lg-4 col-md-5 mb-4 sidebar">
+            <div class="col-lg-4 col-md-5 mb-4">
                 <div class="card-custom">
                     <div class="card-header-custom">
                         <i class="fas fa-cloud-upload-alt"></i>
-                        <h5 class="mb-0">ফাইল আপলোড করুন</h5>
+                        <h5 class="mb-0">আপলোড করুন</h5>
                     </div>
                     
                     <div class="card-body-custom">
                         <!-- Card Selection -->
-                        <div class="card-selector mb-3">
-                            <button class="card-select-btn active" id="card1SelectBtn" onclick="selectCard(1)">
-                                <i class="fas fa-id-card me-1"></i>
-                                <span>কার্ড ১</span>
+                        <div class="d-flex gap-2 mb-3">
+                            <button class="btn btn-outline-primary flex-fill active" id="card1SelectBtn" onclick="selectCard(1)">
+                                কার্ড ১
                             </button>
-                            <button class="card-select-btn" id="card2SelectBtn" onclick="selectCard(2)">
-                                <i class="fas fa-id-card me-1"></i>
-                                <span>কার্ড ২</span>
+                            <button class="btn btn-outline-primary flex-fill" id="card2SelectBtn" onclick="selectCard(2)">
+                                কার্ড ২
                             </button>
                         </div>
                         
@@ -732,8 +496,8 @@
                             <div class="upload-icon">
                                 <i class="fas fa-cloud-upload-alt"></i>
                             </div>
-                            <h6 class="mb-2">ক্লিক করুন অথবা ড্র্যাগ করুন</h6>
-                            <p class="text-muted small mb-0">PDF, JPG, PNG সাপোর্টেড</p>
+                            <h6>ক্লিক করুন অথবা ড্র্যাগ করুন</h6>
+                            <p class="text-muted small">PDF, JPG, PNG সাপোর্টেড</p>
                             <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.webp,.bmp,.gif" class="d-none">
                         </div>
                         
@@ -755,10 +519,10 @@
                             </div>
                         </div>
                         
-                        <!-- Reset All -->
+                        <!-- Reset -->
                         <div class="mt-4">
-                            <button class="btn btn-custom btn-danger-gradient w-100" onclick="resetAll()">
-                                <i class="fas fa-redo me-2"></i>সব রিসেট করুন
+                            <button class="btn btn-danger-gradient w-100" onclick="resetAll()">
+                                <i class="fas fa-redo"></i> সব রিসেট
                             </button>
                         </div>
                     </div>
@@ -777,53 +541,50 @@
                         <!-- Empty State -->
                         <div class="text-center py-5" id="noFileMessage">
                             <i class="fas fa-id-card fa-5x text-muted mb-3"></i>
-                            <h5 class="text-muted">কোনো ফাইল আপলোড করা হয়নি</h5>
-                            <p class="text-muted small">প্রথমে কার্ড সিলেক্ট করে ফাইল আপলোড করুন</p>
+                            <h5 class="text-muted">কোনো ফাইল আপলোড হয়নি</h5>
                         </div>
                         
                         <!-- Preview Container -->
-                        <div class="preview-container d-none" id="previewContainer">
-                            <!-- A4 Page - Scrollable -->
-                            <div class="a4-page" id="a4Page">
-                                <div class="card-container">
-                                    <!-- Card 1 -->
-                                    <div class="nid-card-wrapper" id="card1">
-                                        <div class="card-content" id="card1Content">
-                                            <div class="empty-card-message">
-                                                <i class="fas fa-plus-circle"></i>
-                                                <p>কার্ড ১</p>
+                        <div class="d-none" id="previewContainer">
+                            <!-- A4 Page Wrapper -->
+                            <div class="a4-page-wrapper">
+                                <div class="a4-page" id="a4Page">
+                                    <div class="card-container">
+                                        <!-- Card 1 -->
+                                        <div class="nid-card-wrapper" id="card1">
+                                            <div class="card-content" id="card1Content">
+                                                <div class="empty-card-message">
+                                                    <i class="fas fa-plus-circle"></i>
+                                                    <p>কার্ড ১</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    
-                                    <!-- Card 2 -->
-                                    <div class="nid-card-wrapper" id="card2">
-                                        <div class="card-content" id="card2Content">
-                                            <div class="empty-card-message">
-                                                <i class="fas fa-plus-circle"></i>
-                                                <p>কার্ড ২</p>
+                                        
+                                        <!-- Card 2 -->
+                                        <div class="nid-card-wrapper" id="card2">
+                                            <div class="card-content" id="card2Content">
+                                                <div class="empty-card-message">
+                                                    <i class="fas fa-plus-circle"></i>
+                                                    <p>কার্ড ২</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- Customize Toggle Button -->
-                            <button class="btn btn-customize-toggle" onclick="toggleCustomizationPanel()">
-                                <i class="fas fa-sliders-h me-2"></i>
-                                কাস্টমাইজড করুন
+                            <!-- Customize Button -->
+                            <button class="btn btn-primary w-100 mt-3" onclick="toggleCustomizationPanel()">
+                                <i class="fas fa-sliders-h"></i> কাস্টমাইজড করুন
                             </button>
                             
                             <!-- Customization Panel -->
                             <div class="customization-panel" id="customizationPanel">
-                                <div class="customization-header">
-                                    <h6><i class="fas fa-tools me-2"></i>কাস্টমাইজেশন প্যানেল</h6>
-                                    <button class="btn btn-sm btn-close" onclick="toggleCustomizationPanel()"></button>
-                                </div>
+                                <h6 class="mb-3"><i class="fas fa-tools"></i> কাস্টমাইজেশন</h6>
                                 
-                                <!-- Zoom Controls -->
+                                <!-- Zoom -->
                                 <div class="mb-4">
-                                    <label class="form-label fw-bold">জুম</label>
+                                    <label class="fw-bold">জুম</label>
                                     <div class="zoom-controls">
                                         <button class="zoom-btn" onclick="zoomOut()">
                                             <i class="fas fa-minus"></i>
@@ -835,112 +596,62 @@
                                     </div>
                                 </div>
                                 
-                                <div class="row g-3">
-                                    <!-- Card 1 Controls -->
+                                <div class="row">
                                     <div class="col-md-6">
-                                        <h6 class="fw-bold mb-3">কার্ড ১</h6>
-                                        
+                                        <h6 class="fw-bold">কার্ড ১</h6>
                                         <div class="mb-3">
                                             <label class="form-label">অপাসিটি</label>
                                             <input type="range" class="range-slider" id="card1OpacitySlider" min="50" max="100" value="100" oninput="customOpacity(1, this.value)">
                                         </div>
-                                        
                                         <div class="mb-3">
                                             <label class="form-label">পজিশন</label>
                                             <div class="d-flex gap-2">
-                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'up')">
-                                                    <i class="fas fa-arrow-up"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'down')">
-                                                    <i class="fas fa-arrow-down"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'left')">
-                                                    <i class="fas fa-arrow-left"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'right')">
-                                                    <i class="fas fa-arrow-right"></i>
-                                                </button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'up')"><i class="fas fa-arrow-up"></i></button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'down')"><i class="fas fa-arrow-down"></i></button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'left')"><i class="fas fa-arrow-left"></i></button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'right')"><i class="fas fa-arrow-right"></i></button>
                                             </div>
                                         </div>
                                     </div>
                                     
-                                    <!-- Card 2 Controls -->
                                     <div class="col-md-6">
-                                        <h6 class="fw-bold mb-3">কার্ড ২</h6>
-                                        
+                                        <h6 class="fw-bold">কার্ড ২</h6>
                                         <div class="mb-3">
                                             <label class="form-label">অপাসিটি</label>
                                             <input type="range" class="range-slider" id="card2OpacitySlider" min="50" max="100" value="100" oninput="customOpacity(2, this.value)">
                                         </div>
-                                        
                                         <div class="mb-3">
                                             <label class="form-label">পজিশন</label>
                                             <div class="d-flex gap-2">
-                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'up')">
-                                                    <i class="fas fa-arrow-up"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'down')">
-                                                    <i class="fas fa-arrow-down"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'left')">
-                                                    <i class="fas fa-arrow-left"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'right')">
-                                                    <i class="fas fa-arrow-right"></i>
-                                                </button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'up')"><i class="fas fa-arrow-up"></i></button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'down')"><i class="fas fa-arrow-down"></i></button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'left')"><i class="fas fa-arrow-left"></i></button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'right')"><i class="fas fa-arrow-right"></i></button>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <div class="col-12">
-                                        <button class="btn btn-custom btn-info-gradient w-100" onclick="resetCustomization()">
-                                            <i class="fas fa-undo me-2"></i>সব রিসেট করুন
-                                        </button>
-                                    </div>
                                 </div>
+                                
+                                <button class="btn btn-info w-100 mt-3" onclick="resetCustomization()">
+                                    <i class="fas fa-undo"></i> সব রিসেট
+                                </button>
                             </div>
                             
                             <!-- Action Buttons -->
                             <div class="action-buttons">
-                                <h6><i class="fas fa-cogs me-2"></i>ডাউনলোড ও প্রিন্ট</h6>
+                                <h6><i class="fas fa-cogs"></i> ডাউনলোড ও প্রিন্ট</h6>
                                 
                                 <div class="dropdown">
-                                    <button class="btn btn-custom btn-success-gradient w-100 dropdown-toggle" type="button" id="downloadDropdown" data-bs-toggle="dropdown">
-                                        <i class="fas fa-download me-2"></i>
-                                        ডাউনলোড করুন
+                                    <button class="btn btn-success-gradient w-100 dropdown-toggle" data-bs-toggle="dropdown">
+                                        <i class="fas fa-download"></i> ডাউনলোড করুন
                                     </button>
-                                    <ul class="dropdown-menu dropdown-menu-custom w-100">
-                                        <li>
-                                            <div class="dropdown-item-custom" onclick="downloadAs('pdf')">
-                                                <i class="fas fa-file-pdf"></i>
-                                                <span>PDF ফাইল ডাউনলোড</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="dropdown-item-custom" onclick="downloadAs('png')">
-                                                <i class="fas fa-file-image"></i>
-                                                <span>PNG ইমেজ ডাউনলোড</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="dropdown-item-custom" onclick="downloadAs('jpeg')">
-                                                <i class="fas fa-file-image"></i>
-                                                <span>JPEG ইমেজ ডাউনলোড</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="dropdown-item-custom" onclick="downloadAs('webp')">
-                                                <i class="fas fa-file-image"></i>
-                                                <span>WEBP ইমেজ ডাউনলোড</span>
-                                            </div>
-                                        </li>
+                                    <ul class="dropdown-menu w-100">
+                                        <li><a class="dropdown-item" onclick="downloadAs('pdf')"><i class="fas fa-file-pdf"></i> PDF ডাউনলোড</a></li>
+                                        <li><a class="dropdown-item" onclick="downloadAs('png')"><i class="fas fa-file-image"></i> PNG ডাউনলোড</a></li>
+                                        <li><a class="dropdown-item" onclick="downloadAs('jpeg')"><i class="fas fa-file-image"></i> JPEG ডাউনলোড</a></li>
+                                        <li><a class="dropdown-item" onclick="downloadAs('webp')"><i class="fas fa-file-image"></i> WEBP ডাউনলোড</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li>
-                                            <div class="dropdown-item-custom" onclick="downloadAs('print')">
-                                                <i class="fas fa-print"></i>
-                                                <span>প্রিন্ট করুন</span>
-                                            </div>
-                                        </li>
+                                        <li><a class="dropdown-item" onclick="downloadAs('print')"><i class="fas fa-print"></i> প্রিন্ট করুন</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -953,25 +664,22 @@
 
     <!-- Crop Modal -->
     <div class="modal-custom" id="cropModal">
-        <div class="modal-content-custom">
+        <div class="modal-content">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="mb-0">
-                    <i class="fas fa-crop-alt me-2"></i>
-                    ক্রপ করুন
-                </h5>
-                <button class="btn btn-close" onclick="closeCropModal()"></button>
+                <h5 class="mb-0"><i class="fas fa-crop-alt"></i> ক্রপ করুন</h5>
+                <button class="btn-close" onclick="closeCropModal()"></button>
             </div>
             
             <div class="text-center mb-3">
-                <img id="cropImage" src="" alt="Crop Image" style="max-width: 100%; max-height: 400px;">
+                <img id="cropImage" src="" alt="Crop" style="max-width: 100%; max-height: 400px;">
             </div>
             
             <div class="d-flex justify-content-center gap-2">
-                <button class="btn btn-custom btn-success-gradient" onclick="confirmCrop()">
-                    <i class="fas fa-check me-2"></i>ক্রপ করুন
+                <button class="btn btn-success" onclick="confirmCrop()">
+                    <i class="fas fa-check"></i> ক্রপ
                 </button>
-                <button class="btn btn-custom btn-secondary" onclick="closeCropModal()">
-                    <i class="fas fa-times me-2"></i>বাতিল
+                <button class="btn btn-secondary" onclick="closeCropModal()">
+                    <i class="fas fa-times"></i> বাতিল
                 </button>
             </div>
         </div>
@@ -1008,15 +716,10 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 2000);
-            
             initialize();
         });
 
         function initialize() {
-            initToast();
             setupDragAndDrop();
             selectCard(1);
         }
@@ -1070,7 +773,7 @@
                     await processImage(file);
                 }
             } catch (error) {
-                showToast('ফাইল লোড করতে সমস্যা হয়েছে!', 'error');
+                showToast('ফাইল লোড করতে সমস্যা!', 'error');
             } finally {
                 document.getElementById('fileInput').value = '';
             }
@@ -1080,7 +783,7 @@
             const arrayBuffer = await file.arrayBuffer();
             const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
             const page = await pdf.getPage(1);
-            const viewport = page.getViewport({ scale: 3 });
+            const viewport = page.getViewport({ scale: 2 });
             
             const canvas = document.createElement('canvas');
             canvas.width = viewport.width;
@@ -1124,8 +827,7 @@
                 cropper = new Cropper(img, {
                     aspectRatio: 85.6 / 54,
                     autoCropArea: 0.9,
-                    viewMode: 1,
-                    responsive: true
+                    viewMode: 1
                 });
             }, 200);
         }
@@ -1205,7 +907,7 @@
             if (cardNumber === 1) {
                 if (card1Image) {
                     dot.className = 'card-status-dot filled';
-                    text.textContent = 'কার্ড ১: ফাইল আছে';
+                    text.textContent = 'কার্ড ১: আছে';
                     removeBtn.style.display = 'block';
                 } else {
                     dot.className = 'card-status-dot';
@@ -1215,7 +917,7 @@
             } else {
                 if (card2Image) {
                     dot.className = 'card-status-dot filled';
-                    text.textContent = 'কার্ড ২: ফাইল আছে';
+                    text.textContent = 'কার্ড ২: আছে';
                     removeBtn.style.display = 'block';
                 } else {
                     dot.className = 'card-status-dot';
@@ -1225,7 +927,7 @@
             }
         }
 
-        // Customization Functions
+        // Customization
         function toggleCustomizationPanel() {
             document.getElementById('customizationPanel').classList.toggle('show');
         }
@@ -1267,7 +969,7 @@
             applyCustomization(2);
         }
 
-        // Zoom Controls
+        // Zoom
         function zoomIn() {
             currentZoom = Math.min(1.5, currentZoom + 0.1);
             applyZoom();
@@ -1284,10 +986,10 @@
             document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
         }
 
-        // Download Functions
+        // Download
         async function downloadAs(type) {
             if (!card1Image && !card2Image) {
-                showToast('অনুগ্রহ করে প্রথমে ফাইল আপলোড করুন', 'warning');
+                showToast('ফাইল আপলোড করুন', 'warning');
                 return;
             }
             
@@ -1304,9 +1006,9 @@
                 } else {
                     await downloadImage(type);
                 }
-                showToast('ডাউনলোড সফল হয়েছে!', 'success');
+                showToast('ডাউনলোড সফল!', 'success');
             } catch (error) {
-                showToast('Error downloading!', 'error');
+                showToast('ডাউনলোড সমস্যা!', 'error');
             }
             
             hideLoader();
@@ -1326,9 +1028,9 @@
             const cardWidth = 85.6;
             const cardHeight = 54;
             const card1X = (210 - cardWidth) / 2 + card1Settings.x * 0.5;
-            const card1Y = 20 + card1Settings.y * 0.5;
+            const card1Y = 30 + card1Settings.y * 0.5;
             const card2X = (210 - cardWidth) / 2 + card2Settings.x * 0.5;
-            const card2Y = 100 + card2Settings.y * 0.5;
+            const card2Y = 110 + card2Settings.y * 0.5;
             
             if (card1Image) {
                 doc.addImage(card1Image, 'JPEG', card1X, card1Y, cardWidth, cardHeight);
@@ -1360,20 +1062,15 @@
             link.click();
         }
 
-        // Print Function
+        // Print
         function printPDF() {
-            if (!card1Image && !card2Image) {
-                showToast('অনুগ্রহ করে প্রথমে ফাইল আপলোড করুন', 'warning');
-                return;
-            }
-            
-            showToast('প্রিন্ট শুরু হয়েছে!', 'success');
+            showToast('প্রিন্ট হচ্ছে...', 'success');
             setTimeout(() => {
                 window.print();
             }, 500);
         }
 
-        // Reset All
+        // Reset
         function resetAll() {
             card1Image = null;
             card2Image = null;
@@ -1403,13 +1100,11 @@
             selectCard(1);
             resetCustomization();
             
-            showToast('সবকিছু রিসেট হয়েছে!', 'success');
+            showToast('সব রিসেট হয়েছে!', 'success');
         }
 
         // Toast
         let toastTimeout;
-        function initToast() {}
-
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             const icon = document.getElementById('toastIcon');
@@ -1417,8 +1112,7 @@
             
             icon.innerHTML = type === 'success' ? '<i class="fas fa-check"></i>' :
                             type === 'error' ? '<i class="fas fa-times"></i>' :
-                            type === 'warning' ? '<i class="fas fa-exclamation"></i>' :
-                            '<i class="fas fa-info"></i>';
+                            '<i class="fas fa-exclamation"></i>';
             
             msg.textContent = message;
             toast.className = `toast-custom toast-${type}`;
@@ -1428,13 +1122,17 @@
             toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
         }
 
-        // Loader
         function showLoader() {
-            document.getElementById('loader').classList.remove('hidden');
+            const loader = document.createElement('div');
+            loader.id = 'customLoader';
+            loader.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.8);z-index:99999;display:flex;justify-content:center;align-items:center;';
+            loader.innerHTML = '<div class="spinner-border text-primary"></div>';
+            document.body.appendChild(loader);
         }
 
         function hideLoader() {
-            document.getElementById('loader').classList.add('hidden');
+            const loader = document.getElementById('customLoader');
+            if (loader) loader.remove();
         }
     </script>
 </body>
