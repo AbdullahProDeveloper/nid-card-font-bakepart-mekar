@@ -586,6 +586,7 @@
                 padding: 20mm 0 !important;
                 gap: 20mm !important;
                 min-height: 277mm !important;
+                transform: none !important;
             }
         }
 
@@ -1254,7 +1255,6 @@
             const cardImg = document.getElementById(`card${cardNumber}Img`);
             
             if (cardImg) {
-                // Apply both card offset and individual settings
                 const totalX = settings.x + bothCardsOffset.x;
                 const totalY = settings.y + bothCardsOffset.y;
                 cardWrapper.style.transform = `translate(${totalX}px, ${totalY}px)`;
@@ -1327,7 +1327,7 @@
             document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
         }
 
-        // ========== DOWNLOAD ==========
+        // ========== DOWNLOAD (FIXED) ==========
         async function downloadAs(type) {
             if (!card1Image && !card2Image) {
                 showToast(translations[currentLanguage].file_required, 'warning');
@@ -1358,13 +1358,7 @@
         async function downloadPDF() {
             const a4Page = document.getElementById('a4Page');
             
-            // Save current transform
-            const cardContainer = document.querySelector('.card-container');
-            const originalTransform = cardContainer.style.transform;
-            
-            // Reset transform for capture
-            cardContainer.style.transform = 'none';
-            
+            // Capture EXACTLY what is in preview - no transform reset
             const canvas = await html2canvas(a4Page, {
                 scale: 3,
                 useCORS: true,
@@ -1373,9 +1367,6 @@
                 windowWidth: 794,
                 windowHeight: 1123
             });
-            
-            // Restore transform
-            cardContainer.style.transform = originalTransform;
             
             const imgData = canvas.toDataURL('image/jpeg', 1.0);
             
@@ -1393,13 +1384,7 @@
         async function downloadImage(format) {
             const a4Page = document.getElementById('a4Page');
             
-            // Save current transform
-            const cardContainer = document.querySelector('.card-container');
-            const originalTransform = cardContainer.style.transform;
-            
-            // Reset transform for capture
-            cardContainer.style.transform = 'none';
-            
+            // Capture EXACTLY what is in preview - no transform reset
             const canvas = await html2canvas(a4Page, {
                 scale: 3,
                 useCORS: true,
@@ -1408,9 +1393,6 @@
                 windowWidth: 794,
                 windowHeight: 1123
             });
-            
-            // Restore transform
-            cardContainer.style.transform = originalTransform;
             
             const link = document.createElement('a');
             link.download = `nid-cards.${format}`;
