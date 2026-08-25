@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>NID Card Pro - Professional Processor</title>
+    <meta name="description" content="Professional NID Card processor with advanced crop support">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Cropper.js -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.15);
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+            background: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Loading Screen */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.98);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: all 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-ring {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-brand i {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2rem;
+        }
+
+        .btn-language {
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-language:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Main Container */
+        .main-container {
+            padding-top: 100px;
+            padding-bottom: 50px;
+        }
+
+        /* Cards */
+        .card-custom {
+            border: none;
+            border-radius: 20px;
+            background: white;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 50px rgba(0,0,0,0.15);
+        }
+
+        .card-header-custom {
+            background: var(--gradient);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-header-custom i {
+            font-size: 1.5rem;
+        }
+
+        .card-body-custom {
+            padding: 25px;
+        }
+
+        /* Card Selection */
+        .card-selector {
+            background: #f1f5f9;
+            border-radius: 15px;
+            padding: 5px;
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .card-select-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #64748b;
+            cursor: pointer;
+        }
+
+        .card-select-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .card-select-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            border: 3px dashed var(--primary);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-zone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .upload-zone:hover::before {
+            left: 100%;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--secondary);
+            transform: scale(1.02);
+        }
+
+        .upload-zone.dragover {
+            border-color: var(--success);
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        /* Buttons */
+        .btn-custom {
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-custom::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-custom:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary-gradient {
+            background: var(--gradient);
+            color: white;
+            border: none;
+        }
+
+        .btn-success-gradient {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn-warning-gradient {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn-danger-gradient {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary-gradient {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            color: white;
+            border: none;
+        }
+
+        /* Toggle Switch */
+        .toggle-group {
+            background: #f1f5f9;
+            border-radius: 15px;
+            padding: 5px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #64748b;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .toggle-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Preview Area */
+        .preview-container {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid var(--border);
+        }
+
+        /* A4 Page */
+        .a4-page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            margin: 0 auto;
+            padding: 10mm;
+            box-shadow: 0 0 40px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .a4-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient);
+            border-radius: 10px 10px 0 0;
+        }
+
+        /* NID Card */
+        .nid-card-wrapper {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .nid-card-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .nid-card-wrapper:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .nid-card-wrapper img {
+            width: 100% !important;
+            height: auto !important;
+            display: block;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .empty-card-message {
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #94a3b8;
+        }
+
+        .empty-card-message i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .empty-card-message p {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        /* Zoom Controls */
+        .zoom-controls {
+            background: white;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: var(--shadow-md);
+            display: inline-flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .zoom-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #f1f5f9;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .zoom-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .zoom-level {
+            padding: 5px 15px;
+            font-weight: 600;
+            color: var(--dark);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* Toast */
+        .toast-custom {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-lg);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(300px);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .toast-custom.show {
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .toast-success .toast-icon {
+            background: var(--success);
+        }
+
+        .toast-error .toast-icon {
+            background: var(--danger);
+        }
+
+        .toast-warning .toast-icon {
+            background: var(--warning);
+        }
+
+        /* Modal */
+        .modal-custom {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-custom.show {
+            display: flex;
+        }
+
+        .modal-content-custom {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 800px;
+            width: 90%;
+            transform: scale(0.7);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-custom.show .modal-content-custom {
+            transform: scale(1);
+        }
+
+        /* Progress Bar */
+        .progress-bar-custom {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Card Status */
+        .card-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            background: #f1f5f9;
+            margin-bottom: 10px;
+        }
+
+        .card-status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e1;
+        }
+
+        .card-status-dot.active {
+            background: var(--success);
+        }
+
+        .card-status-dot.filled {
+            background: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .a4-page {
+                width: 100%;
+                min-height: auto;
+                padding: 5mm;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding-top: 80px;
+            }
+            
+            .card-body-custom {
+                padding: 15px;
+            }
+            
+            .btn-custom {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .upload-zone {
+                padding: 20px 15px;
+            }
+            
+            .upload-icon {
+                font-size: 2.5rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            
+            .navbar-brand i {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .navbar, .no-print, .sidebar {
+                display: none !important;
+            }
+            
+            .a4-page {
+                box-shadow: none !important;
+                margin: 0 !important;
+                width: 100% !important;
+                min-height: 100vh !important;
+            }
+            
+            body {
+                background: white !important;
+            }
+            
+            .main-container {
+                padding: 0 !important;
+            }
+            
+            .card-custom {
+                box-shadow: none !important;
+            }
+            
+            .preview-container {
+                border: none !important;
+                background: white !important;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Selection */
+        ::selection {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Animation */
+        .animate-in {
+            animation: slideInUp 0.5s ease;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-ring"></div>
+            <h5 class="mt-3">Loading NID Card Pro...</h5>
+            <p class="text-muted">Please wait</p>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-id-card-alt"></i>
+                <span>NID Card Pro</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item me-2">
+                        <button class="btn btn-language btn-primary-gradient" onclick="switchLanguage('bn')">
+                            <i class="fas fa-language me-1"></i>
+                            বাংলা
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-language btn-primary-gradient" onclick="switchLanguage('en')">
+                            <i class="fas fa-language me-1"></i>
+                            English
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container main-container">
+        <div class="row">
+            <!-- Left Sidebar -->
+            <div class="col-lg-4 col-md-5 mb-4 sidebar">
+                <div class="card-custom">
+                    <div class="card-header-custom">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h5 class="mb-0" data-i18n="upload_title">ফাইল আপলোড করুন</h5>
+                    </div>
+                    
+                    <div class="card-body-custom">
+                        <!-- Card Selection -->
+                        <div class="card-selector mb-3">
+                            <button class="card-select-btn active" id="card1SelectBtn" onclick="selectCard(1)">
+                                <i class="fas fa-id-card me-1"></i>
+                                <span data-i18n="card1_select">কার্ড ১</span>
+                            </button>
+                            <button class="card-select-btn" id="card2SelectBtn" onclick="selectCard(2)">
+                                <i class="fas fa-id-card me-1"></i>
+                                <span data-i18n="card2_select">কার্ড ২</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Upload Zone -->
+                        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <h6 class="mb-2" data-i18n="upload_instruction">ক্লিক করুন অথবা ড্র্যাগ করুন</h6>
+                            <p class="text-muted small mb-0" data-i18n="upload_hint">PDF, JPG, PNG সাপোর্টেড</p>
+                            <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.webp,.bmp,.gif" class="d-none">
+                        </div>
+                        
+                        <!-- Card Status -->
+                        <div class="mt-3">
+                            <div class="card-status">
+                                <div class="card-status-dot" id="card1StatusDot"></div>
+                                <span class="small" id="card1StatusText">কার্ড ১: খালি</span>
+                                <button class="btn btn-sm btn-outline-danger ms-auto" onclick="removeCardImage(1)" id="card1RemoveBtn" style="display:none;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="card-status">
+                                <div class="card-status-dot" id="card2StatusDot"></div>
+                                <span class="small" id="card2StatusText">কার্ড ২: খালি</span>
+                                <button class="btn btn-sm btn-outline-danger ms-auto" onclick="removeCardImage(2)" id="card2RemoveBtn" style="display:none;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Position Toggle -->
+                        <div class="mt-4">
+                            <label class="form-label fw-bold" data-i18n="card_position">কার্ড পজিশন</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" id="topFirstBtn" onclick="setTopFirst(true)">
+                                    <i class="fas fa-arrow-up me-1"></i>
+                                    <span data-i18n="card1_top">কার্ড ১ উপরে</span>
+                                </button>
+                                <button class="toggle-btn" id="bottomFirstBtn" onclick="setTopFirst(false)">
+                                    <i class="fas fa-arrow-down me-1"></i>
+                                    <span data-i18n="card2_top">কার্ড ২ উপরে</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="mt-4">
+                            <button class="btn btn-custom btn-success-gradient w-100 mb-2" onclick="downloadPDF()" id="downloadPdfBtn" disabled>
+                                <i class="fas fa-download me-2"></i>
+                                <span data-i18n="download_pdf">PDF ডাউনলোড</span>
+                            </button>
+                            
+                            <button class="btn btn-custom btn-primary-gradient w-100 mb-2" onclick="printPDF()" id="printBtn" disabled>
+                                <i class="fas fa-print me-2"></i>
+                                <span data-i18n="print">প্রিন্ট</span>
+                            </button>
+                            
+                            <div class="row g-2 mb-3">
+                                <div class="col-5">
+                                    <select class="form-select" id="imageFormat">
+                                        <option value="png">PNG</option>
+                                        <option value="jpeg">JPEG</option>
+                                        <option value="webp">WEBP</option>
+                                    </select>
+                                </div>
+                                <div class="col-7">
+                                    <button class="btn btn-custom btn-warning-gradient w-100" onclick="downloadImage()" id="downloadImgBtn" disabled>
+                                        <i class="fas fa-image me-1"></i>
+                                        <span data-i18n="download_image">ইমেজ ডাউনলোড</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-custom btn-danger-gradient w-100" onclick="resetAll()">
+                                <i class="fas fa-redo me-2"></i>
+                                <span data-i18n="reset">রিসেট</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Preview -->
+            <div class="col-lg-8 col-md-7">
+                <div class="card-custom">
+                    <div class="card-header-custom">
+                        <i class="fas fa-eye"></i>
+                        <h5 class="mb-0" data-i18n="preview_title">প্রিভিউ</h5>
+                        
+                        <div class="ms-auto">
+                            <div class="zoom-controls">
+                                <button class="zoom-btn" onclick="zoomOut()">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span class="zoom-level" id="zoomLevel">100%</span>
+                                <button class="zoom-btn" onclick="zoomIn()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body-custom">
+                        <!-- Empty State -->
+                        <div class="text-center py-5" id="noFileMessage">
+                            <i class="fas fa-id-card fa-5x text-muted mb-3 float-animation"></i>
+                            <h5 class="text-muted" data-i18n="no_file">কোনো ফাইল আপলোড করা হয়নি</h5>
+                            <p class="text-muted small" data-i18n="upload_first">প্রথমে কার্ড সিলেক্ট করে ফাইল আপলোড করুন</p>
+                        </div>
+                        
+                        <!-- Preview Container -->
+                        <div class="preview-container d-none" id="previewContainer">
+                            <div class="a4-page" id="a4Page">
+                                <!-- Card 1 -->
+                                <div class="nid-card-wrapper" id="card1">
+                                    <div class="card-content" id="card1Content">
+                                        <div class="empty-card-message">
+                                            <i class="fas fa-plus-circle"></i>
+                                            <p>কার্ড ১ এ ফাইল দিন</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Card 2 -->
+                                <div class="nid-card-wrapper mt-4" id="card2">
+                                    <div class="card-content" id="card2Content">
+                                        <div class="empty-card-message">
+                                            <i class="fas fa-plus-circle"></i>
+                                            <p>কার্ড ২ এ ফাইল দিন</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Crop Modal -->
+    <div class="modal-custom" id="cropModal">
+        <div class="modal-content-custom">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">
+                    <i class="fas fa-crop-alt me-2"></i>
+                    ক্রপ করুন
+                </h5>
+                <button class="btn btn-close" onclick="closeCropModal()"></button>
+            </div>
+            
+            <div class="text-center mb-3">
+                <img id="cropImage" src="" alt="Crop Image" style="max-width: 100%; max-height: 400px;">
+            </div>
+            
+            <div class="d-flex justify-content-center gap-2">
+                <button class="btn btn-custom btn-success-gradient" onclick="confirmCrop()">
+                    <i class="fas fa-check me-2"></i>ক্রপ করুন
+                </button>
+                <button class="btn btn-custom btn-secondary-gradient" onclick="closeCropModal()">
+                    <i class="fas fa-times me-2"></i>বাতিল
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Toast -->
+    <div class="toast-custom" id="toast">
+        <div class="toast-icon" id="toastIcon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="toast-message" id="toastMessage"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-4 mt-5 no-print">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>NID Card Pro</h6>
+                    <p class="small mb-0" data-i18n="footer_copyright">© ২০২৬ NID Card Pro - সর্বস্বত্ব সংরক্ষিত</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+    
+    <script>
+        // ========== LANGUAGE TRANSLATIONS ==========
+        const translations = {
+            bn: {
+                upload_title: 'ফাইল আপলোড করুন',
+                upload_instruction: 'ক্লিক করুন অথবা ড্র্যাগ করুন',
+                upload_hint: 'PDF, JPG, PNG সাপোর্টেড',
+                card_position: 'কার্ড পজিশন',
+                card1_top: 'কার্ড ১ উপরে',
+                card2_top: 'কার্ড ২ উপরে',
+                card1_select: 'কার্ড ১',
+                card2_select: 'কার্ড ২',
+                downloaded_files: 'আপলোডকৃত ফাইল',
+                download_pdf: 'PDF ডাউনলোড',
+                print: 'প্রিন্ট',
+                download_image: 'ইমেজ ডাউনলোড',
+                reset: 'রিসেট',
+                preview_title: 'প্রিভিউ',
+                no_file: 'কোনো ফাইল আপলোড করা হয়নি',
+                upload_first: 'প্রথমে কার্ড সিলেক্ট করে ফাইল আপলোড করুন',
+                footer_copyright: '© ২০২৬ NID Card Pro - সর্বস্বত্ব সংরক্ষিত',
+                success_upload: 'ফাইল সফলভাবে লোড হয়েছে!',
+                error_upload: 'ফাইল লোড করতে সমস্যা হয়েছে!',
+                invalid_file: 'অবৈধ ফাইল!',
+                pdf_required: 'অনুগ্রহ করে প্রথমে ফাইল আপলোড করুন',
+                download_success: 'ডাউনলোড সফল হয়েছে!',
+                print_success: 'প্রিন্ট শুরু হয়েছে!',
+                reset_success: 'সবকিছু রিসেট হয়েছে!',
+                crop_success: 'ক্রপ সফল হয়েছে!',
+                crop_required: 'অনুগ্রহ করে ক্রপ করুন!',
+                card1_filled: 'কার্ড ১ এ ফাইল যোগ হয়েছে',
+                card2_filled: 'কার্ড ২ এ ফাইল যোগ হয়েছে',
+                select_card: 'কার্ড সিলেক্ট করুন',
+                card1_empty: 'কার্ড ১: খালি',
+                card2_empty: 'কার্ড ২: খালি',
+                card1_filled_status: 'কার্ড ১: ফাইল আছে',
+                card2_filled_status: 'কার্ড ২: ফাইল আছে',
+                crop_title: 'ক্রপ করুন'
+            },
+            en: {
+                upload_title: 'Upload File',
+                upload_instruction: 'Click or drag file',
+                upload_hint: 'PDF, JPG, PNG supported',
+                card_position: 'Card Position',
+                card1_top: 'Card 1 Top',
+                card2_top: 'Card 2 Top',
+                card1_select: 'Card 1',
+                card2_select: 'Card 2',
+                downloaded_files: 'Uploaded Files',
+                download_pdf: 'Download PDF',
+                print: 'Print',
+                download_image: 'Download Image',
+                reset: 'Reset',
+                preview_title: 'Preview',
+                no_file: 'No file uploaded yet',
+                upload_first: 'Select a card and upload a file first',
+                footer_copyright: '© 2026 NID Card Pro - All Rights Reserved',
+                success_upload: 'File loaded successfully!',
+                error_upload: 'Error loading file!',
+                invalid_file: 'Invalid file!',
+                pdf_required: 'Please upload a file first',
+                download_success: 'Download successful!',
+                print_success: 'Print started!',
+                reset_success: 'Everything has been reset!',
+                crop_success: 'Crop successful!',
+                crop_required: 'Please crop the image!',
+                card1_filled: 'Card 1 filled',
+                card2_filled: 'Card 2 filled',
+                select_card: 'Select a card',
+                card1_empty: 'Card 1: Empty',
+                card2_empty: 'Card 2: Empty',
+                card1_filled_status: 'Card 1: Filled',
+                card2_filled_status: 'Card 2: Filled',
+                crop_title: 'Crop Image'
+            }
+        };
+
+        // ========== GLOBAL VARIABLES ==========
+        let currentLanguage = 'bn';
+        let topFirst = true;
+        let currentZoom = 1;
+        let selectedCard = 1;
+        let card1Image = null;
+        let card2Image = null;
+        let cropper = null;
+
+        // PDF.js Worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // ========== INITIALIZATION ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hide loader after 2 seconds
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2000);
+            
+            // Initialize
+            initialize();
+        });
+
+        function initialize() {
+            // Set default language
+            switchLanguage('bn');
+            
+            // Set default position
+            setTopFirst(true);
+            
+            // Set default zoom
+            applyZoom();
+            
+            // Toast initialization
+            initToast();
+            
+            // Setup drag and drop
+            setupDragAndDrop();
+            
+            // Select card 1 by default
+            selectCard(1);
+        }
+
+        // ========== LANGUAGE SWITCH ==========
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update all text elements
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update navbar language buttons
+            document.querySelectorAll('.btn-language').forEach(btn => {
+                if (btn.textContent.includes('বাংলা')) {
+                    btn.classList.toggle('active', lang === 'bn');
+                } else {
+                    btn.classList.toggle('active', lang === 'en');
+                }
+            });
+            
+            // Update card status
+            updateCardStatus(1);
+            updateCardStatus(2);
+        }
+
+        // ========== CARD SELECTION ==========
+        function selectCard(cardNumber) {
+            selectedCard = cardNumber;
+            
+            // Update UI
+            document.getElementById('card1SelectBtn').classList.toggle('active', cardNumber === 1);
+            document.getElementById('card2SelectBtn').classList.toggle('active', cardNumber === 2);
+            
+            // Update upload zone text
+            const uploadZone = document.getElementById('uploadZone');
+            uploadZone.classList.add('animate-in');
+            setTimeout(() => uploadZone.classList.remove('animate-in'), 500);
+            
+            // Show toast
+            showToast(`${translations[currentLanguage].select_card}: ${cardNumber === 1 ? '১' : '২'}`, 'info');
+        }
+
+        // ========== FILE UPLOAD ==========
+        document.getElementById('fileInput').addEventListener('change', handleFileUpload);
+
+        function setupDragAndDrop() {
+            const uploadZone = document.getElementById('uploadZone');
+
+            uploadZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadZone.classList.add('dragover');
+            });
+
+            uploadZone.addEventListener('dragleave', () => {
+                uploadZone.classList.remove('dragover');
+            });
+
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadZone.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                processFiles(files);
+            });
+        }
+
+        async function handleFileUpload(e) {
+            const files = e.target.files;
+            processFiles(files);
+        }
+
+        async function processFiles(files) {
+            const validFiles = Array.from(files).filter(file => {
+                const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/bmp', 'image/gif'];
+                return validTypes.includes(file.type);
+            });
+            
+            if (validFiles.length === 0) {
+                showToast(translations[currentLanguage].invalid_file, 'error');
+                return;
+            }
+            
+            // Process the first valid file
+            const file = validFiles[0];
+            
+            // Show loading state
+            const uploadZone = document.getElementById('uploadZone');
+            uploadZone.style.opacity = '0.6';
+            uploadZone.style.pointerEvents = 'none';
+            
+            try {
+                // Process file based on type
+                if (file.type === 'application/pdf') {
+                    await processPDF(file);
+                } else {
+                    await processImage(file);
+                }
+            } catch (error) {
+                console.error('Error loading file:', error);
+                showToast(translations[currentLanguage].error_upload, 'error');
+            } finally {
+                // Reset upload zone
+                uploadZone.style.opacity = '1';
+                uploadZone.style.pointerEvents = 'auto';
+                document.getElementById('fileInput').value = '';
+            }
+        }
+
+        async function processPDF(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            
+            // Render first page to canvas
+            const page = await pdf.getPage(1);
+            const viewport = page.getViewport({ scale: 3 });
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            
+            const context = canvas.getContext('2d');
+            context.fillStyle = 'white';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            
+            await page.render({
+                canvasContext: context,
+                viewport: viewport
+            }).promise;
+            
+            // Show crop modal
+            openCropModal(canvas.toDataURL('image/jpeg', 0.95));
+        }
+
+        async function processImage(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    
+                    const context = canvas.getContext('2d');
+                    context.drawImage(img, 0, 0);
+                    
+                    // Show crop modal
+                    openCropModal(canvas.toDataURL('image/jpeg', 0.95));
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ========== CROP MODAL ==========
+        function openCropModal(imageSrc) {
+            const modal = document.getElementById('cropModal');
+            const img = document.getElementById('cropImage');
+            
+            img.src = imageSrc;
+            modal.classList.add('show');
+            
+            setTimeout(() => {
+                if (cropper) {
+                    cropper.destroy();
+                }
+                
+                cropper = new Cropper(img, {
+                    aspectRatio: NaN,
+                    autoCropArea: 0.8,
+                    viewMode: 1,
+                    movable: true,
+                    zoomable: true,
+                    rotatable: true,
+                    scalable: true
+                });
+            }, 200);
+        }
+
+        function closeCropModal() {
+            const modal = document.getElementById('cropModal');
+            modal.classList.remove('show');
+            
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+        }
+
+        function confirmCrop() {
+            if (!cropper) {
+                showToast(translations[currentLanguage].crop_required, 'warning');
+                return;
+            }
+            
+            const canvas = cropper.getCroppedCanvas({
+                width: 600,
+                height: 400,
+                fillColor: '#fff'
+            });
+            
+            const imageData = canvas.toDataURL('image/jpeg', 0.95);
+            
+            // Set image to selected card
+            if (selectedCard === 1) {
+                card1Image = imageData;
+                setCardImage(1, imageData);
+                updateCardStatus(1);
+                showToast(translations[currentLanguage].card1_filled, 'success');
+            } else {
+                card2Image = imageData;
+                setCardImage(2, imageData);
+                updateCardStatus(2);
+                showToast(translations[currentLanguage].card2_filled, 'success');
+            }
+            
+            // Show preview
+            document.getElementById('noFileMessage').classList.add('d-none');
+            document.getElementById('previewContainer').classList.remove('d-none');
+            
+            // Enable buttons
+            document.getElementById('downloadPdfBtn').disabled = false;
+            document.getElementById('printBtn').disabled = false;
+            document.getElementById('downloadImgBtn').disabled = false;
+            
+            closeCropModal();
+        }
+
+        // ========== SET CARD IMAGE ==========
+        function setCardImage(cardNumber, imageSrc) {
+            const cardContent = document.getElementById(`card${cardNumber}Content`);
+            
+            cardContent.innerHTML = `
+                <img src="${imageSrc}" alt="Card ${cardNumber}">
+            `;
+            
+            // Add animation
+            const cardWrapper = document.getElementById(`card${cardNumber}`);
+            cardWrapper.style.animation = 'none';
+            cardWrapper.offsetHeight;
+            cardWrapper.style.animation = 'slideInUp 0.5s ease';
+        }
+
+        // ========== REMOVE CARD IMAGE ==========
+        function removeCardImage(cardNumber) {
+            if (cardNumber === 1) {
+                card1Image = null;
+                document.getElementById('card1Content').innerHTML = `
+                    <div class="empty-card-message">
+                        <i class="fas fa-plus-circle"></i>
+                        <p>কার্ড ১ এ ফাইল দিন</p>
+                    </div>
+                `;
+            } else {
+                card2Image = null;
+                document.getElementById('card2Content').innerHTML = `
+                    <div class="empty-card-message">
+                        <i class="fas fa-plus-circle"></i>
+                        <p>কার্ড ২ এ ফাইল দিন</p>
+                    </div>
+                `;
+            }
+            
+            updateCardStatus(cardNumber);
+            
+            // Check if any cards are filled
+            if (!card1Image && !card2Image) {
+                document.getElementById('noFileMessage').classList.remove('d-none');
+                document.getElementById('previewContainer').classList.add('d-none');
+                document.getElementById('downloadPdfBtn').disabled = true;
+                document.getElementById('printBtn').disabled = true;
+                document.getElementById('downloadImgBtn').disabled = true;
+            }
+        }
+
+        // ========== UPDATE CARD STATUS ==========
+        function updateCardStatus(cardNumber) {
+            const dot = document.getElementById(`card${cardNumber}StatusDot`);
+            const text = document.getElementById(`card${cardNumber}StatusText`);
+            const removeBtn = document.getElementById(`card${cardNumber}RemoveBtn`);
+            
+            if (cardNumber === 1) {
+                if (card1Image) {
+                    dot.className = 'card-status-dot filled';
+                    text.textContent = translations[currentLanguage].card1_filled_status;
+                    removeBtn.style.display = 'block';
+                } else {
+                    dot.className = 'card-status-dot';
+                    text.textContent = translations[currentLanguage].card1_empty;
+                    removeBtn.style.display = 'none';
+                }
+            } else {
+                if (card2Image) {
+                    dot.className = 'card-status-dot filled';
+                    text.textContent = translations[currentLanguage].card2_filled_status;
+                    removeBtn.style.display = 'block';
+                } else {
+                    dot.className = 'card-status-dot';
+                    text.textContent = translations[currentLanguage].card2_empty;
+                    removeBtn.style.display = 'none';
+                }
+            }
+        }
+
+        // ========== CARD POSITION ==========
+        function setTopFirst(value) {
+            topFirst = value;
+            
+            const card1 = document.getElementById('card1');
+            const card2 = document.getElementById('card2');
+            
+            const btn1 = document.getElementById('topFirstBtn');
+            const btn2 = document.getElementById('bottomFirstBtn');
+            
+            if (topFirst) {
+                card1.classList.remove('mt-4');
+                card2.classList.add('mt-4');
+                
+                btn1.classList.add('active');
+                btn2.classList.remove('active');
+            } else {
+                card1.classList.add('mt-4');
+                card2.classList.remove('mt-4');
+                
+                btn1.classList.remove('active');
+                btn2.classList.add('active');
+            }
+        }
+
+        // ========== ZOOM CONTROLS ==========
+        function zoomIn() {
+            currentZoom = Math.min(2, currentZoom + 0.1);
+            applyZoom();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(0.5, currentZoom - 0.1);
+            applyZoom();
+        }
+
+        function applyZoom() {
+            const a4Page = document.getElementById('a4Page');
+            a4Page.style.transform = `scale(${currentZoom})`;
+            document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
+        }
+
+        // ========== DOWNLOAD PDF ==========
+        async function downloadPDF() {
+            if (!card1Image && !card2Image) {
+                showToast(translations[currentLanguage].pdf_required, 'warning');
+                return;
+            }
+            
+            showLoader();
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+                
+                // Add background
+                doc.setFillColor(248, 250, 252);
+                doc.rect(0, 0, 210, 297, 'F');
+                
+                // Add title
+                doc.setFontSize(16);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(37, 99, 235);
+                doc.text('National ID Card', 105, 20, { align: 'center' });
+                
+                // Add decorative line
+                doc.setDrawColor(37, 99, 235);
+                doc.setLineWidth(1);
+                doc.line(30, 25, 180, 25);
+                
+                // Add cards
+                if (topFirst) {
+                    if (card1Image) {
+                        addImageToPDF(doc, card1Image, 35);
+                    }
+                    if (card2Image) {
+                        addImageToPDF(doc, card2Image, 140);
+                    }
+                } else {
+                    if (card2Image) {
+                        addImageToPDF(doc, card2Image, 35);
+                    }
+                    if (card1Image) {
+                        addImageToPDF(doc, card1Image, 140);
+                    }
+                }
+                
+                // Add footer
+                doc.setFontSize(8);
+                doc.setTextColor(100, 116, 139);
+                doc.text('Generated by NID Card Pro', 105, 290, { align: 'center' });
+                
+                // Save
+                doc.save('nid-cards.pdf');
+                showToast(translations[currentLanguage].download_success, 'success');
+                
+            } catch (error) {
+                console.error('Error downloading PDF:', error);
+                showToast('Error downloading PDF!', 'error');
+            }
+            
+            hideLoader();
+        }
+
+        function addImageToPDF(doc, imageSrc, yOffset) {
+            // Calculate dimensions
+            const maxWidth = 170;
+            const maxHeight = 110;
+            
+            const img = new Image();
+            img.src = imageSrc;
+            
+            doc.addImage(imageSrc, 'JPEG', 20, yOffset, maxWidth, maxHeight);
+            
+            // Add border
+            doc.setDrawColor(203, 213, 225);
+            doc.setLineWidth(0.5);
+            doc.roundedRect(20, yOffset, maxWidth, maxHeight, 5, 5);
+        }
+
+        // ========== PRINT ==========
+        function printPDF() {
+            if (!card1Image && !card2Image) {
+                showToast(translations[currentLanguage].pdf_required, 'warning');
+                return;
+            }
+            
+            showToast(translations[currentLanguage].print_success, 'success');
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        }
+
+        // ========== DOWNLOAD IMAGE ==========
+        async function downloadImage() {
+            if (!card1Image && !card2Image) {
+                showToast(translations[currentLanguage].pdf_required, 'warning');
+                return;
+            }
+            
+            showLoader();
+            
+            try {
+                const a4Page = document.getElementById('a4Page');
+                const format = document.getElementById('imageFormat').value;
+                
+                // Remove transform for proper rendering
+                const originalTransform = a4Page.style.transform;
+                a4Page.style.transform = 'none';
+                
+                const canvas = await html2canvas(a4Page, {
+                    scale: 3,
+                    useCORS: true,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    onclone: (clonedDoc) => {
+                        const clonedElement = clonedDoc.getElementById('a4Page');
+                        clonedElement.style.transform = 'none';
+                    }
+                });
+                
+                // Restore transform
+                a4Page.style.transform = originalTransform;
+                
+                // Create download link
+                const link = document.createElement('a');
+                link.download = `nid-cards.${format}`;
+                link.href = canvas.toDataURL(`image/${format}`, 1.0);
+                link.click();
+                
+                showToast(translations[currentLanguage].download_success, 'success');
+                
+            } catch (error) {
+                console.error('Error downloading image:', error);
+                showToast('Error downloading image!', 'error');
+            }
+            
+            hideLoader();
+        }
+
+        // ========== RESET ==========
+        function resetAll() {
+            // Reset cards
+            card1Image = null;
+            card2Image = null;
+            
+            // Reset card contents
+            document.getElementById('card1Content').innerHTML = `
+                <div class="empty-card-message">
+                    <i class="fas fa-plus-circle"></i>
+                    <p>কার্ড ১ এ ফাইল দিন</p>
+                </div>
+            `;
+            
+            document.getElementById('card2Content').innerHTML = `
+                <div class="empty-card-message">
+                    <i class="fas fa-plus-circle"></i>
+                    <p>কার্ড ২ এ ফাইল দিন</p>
+                </div>
+            `;
+            
+            // Update status
+            updateCardStatus(1);
+            updateCardStatus(2);
+            
+            // Hide preview
+            document.getElementById('noFileMessage').classList.remove('d-none');
+            document.getElementById('previewContainer').classList.add('d-none');
+            
+            // Disable buttons
+            document.getElementById('downloadPdfBtn').disabled = true;
+            document.getElementById('printBtn').disabled = true;
+            document.getElementById('downloadImgBtn').disabled = true;
+            
+            // Reset zoom
+            currentZoom = 1;
+            applyZoom();
+            
+            // Reset position
+            setTopFirst(true);
+            
+            // Reset card selection
+            selectCard(1);
+            
+            // Show toast
+            showToast(translations[currentLanguage].reset_success, 'success');
+        }
+
+        // ========== TOAST NOTIFICATIONS ==========
+        let toastTimeout;
+
+        function initToast() {
+            // Toast is already in HTML
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            const msg = document.getElementById('toastMessage');
+            
+            // Set icon
+            icon.innerHTML = type === 'success' ? '<i class="fas fa-check"></i>' :
+                            type === 'error' ? '<i class="fas fa-times"></i>' :
+                            type === 'warning' ? '<i class="fas fa-exclamation"></i>' :
+                            '<i class="fas fa-info"></i>';
+            
+            // Set message
+            msg.textContent = message;
+            
+            // Set toast class
+            toast.className = `toast-custom toast-${type}`;
+            
+            // Show toast
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            // Auto hide after 4 seconds
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // ========== LOADER ==========
+        function showLoader() {
+            document.getElementById('loader').classList.remove('hidden');
+        }
+
+        function hideLoader() {
+            document.getElementById('loader').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
