@@ -26,6 +26,10 @@
             --light: #f8fafc;
             --border: #e2e8f0;
             --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-width: 85.6mm;
+            --card-height: 54mm;
+            --a4-width: 210mm;
+            --a4-height: 297mm;
         }
 
         * {
@@ -471,7 +475,7 @@
             }
         }
 
-        /* Print - Exact A4 */
+        /* Print - Exact A4 Match */
         @media print {
             @page {
                 size: A4;
@@ -494,12 +498,13 @@
                 min-height: 297mm !important;
                 box-shadow: none !important;
                 margin: 0 !important;
-                padding: 0 !important;
+                padding: 10mm !important;
             }
             
             .card-container {
-                padding: 40px 0 !important;
-                gap: 40px !important;
+                padding: 20mm 0 !important;
+                gap: 20mm !important;
+                min-height: 277mm !important;
             }
         }
 
