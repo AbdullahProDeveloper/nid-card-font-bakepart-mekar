@@ -243,18 +243,16 @@
             border: none;
         }
 
-        /* Preview Area - Mobile Scroll Fix */
+        /* Preview Area - Scrollable */
         .preview-container {
             background: #f8fafc;
             border-radius: 20px;
             padding: 20px;
             border: 2px solid var(--border);
             position: relative;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
-        /* A4 Page */
+        /* A4 Page - Scrollable */
         .a4-page {
             width: 210mm;
             min-height: 297mm;
@@ -264,7 +262,8 @@
             box-shadow: 0 0 40px rgba(0,0,0,0.2);
             border-radius: 10px;
             position: relative;
-            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 600px;
             -webkit-overflow-scrolling: touch;
         }
 
@@ -307,7 +306,7 @@
             color: #64748b;
         }
 
-        /* Card Container - Professional Layout */
+        /* Card Container */
         .card-container {
             display: flex;
             flex-direction: column;
@@ -552,14 +551,13 @@
             
             .preview-container {
                 padding: 10px;
-                overflow-x: auto;
             }
             
             .a4-page {
-                width: 210mm;
+                max-height: 500px;
                 padding: 5mm;
-                margin: 0;
-                transform-origin: top left;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
             
             .card-container {
@@ -617,6 +615,7 @@
                 padding: 10mm !important;
                 border-radius: 0 !important;
                 overflow: visible !important;
+                max-height: none !important;
             }
             
             .card-container {
@@ -784,7 +783,7 @@
                         
                         <!-- Preview Container -->
                         <div class="preview-container d-none" id="previewContainer">
-                            <!-- A4 Page -->
+                            <!-- A4 Page - Scrollable -->
                             <div class="a4-page" id="a4Page">
                                 <div class="card-container">
                                     <!-- Card 1 -->
