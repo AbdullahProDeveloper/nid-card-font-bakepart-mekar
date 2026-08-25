@@ -22,6 +22,8 @@
             --primary: #2563eb;
             --success: #10b981;
             --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #06b6d4;
             --dark: #1e293b;
             --light: #f8fafc;
             --border: #e2e8f0;
@@ -316,6 +318,42 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
+        /* Move Both Cards Controls */
+        .move-both-controls {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .move-both-controls h6 {
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .move-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .move-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .move-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
         /* Action Buttons */
         .action-buttons {
             background: white;
@@ -347,21 +385,24 @@
             background: #f8fafc;
         }
 
-        /* Toast */
+        /* Professional Toast */
         .toast-custom {
             position: fixed;
             top: 60px;
-            right: 20px;
+            right: 15px;
             z-index: 9999;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            padding: 10px 15px;
             display: flex;
             align-items: center;
             gap: 10px;
             transform: translateX(300px);
-            transition: all 0.5s;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid rgba(255,255,255,0.2);
+            max-width: 300px;
         }
 
         .toast-custom.show {
@@ -369,25 +410,38 @@
         }
 
         .toast-icon {
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
+            font-size: 0.9rem;
+            flex-shrink: 0;
         }
 
         .toast-success .toast-icon {
-            background: #10b981;
+            background: linear-gradient(135deg, #10b981, #059669);
         }
 
         .toast-error .toast-icon {
-            background: #ef4444;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
         }
 
         .toast-warning .toast-icon {
-            background: #f59e0b;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .toast-info .toast-icon {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+        }
+
+        .toast-message {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--dark);
+            line-height: 1.3;
         }
 
         /* Modal */
@@ -399,6 +453,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
             z-index: 10000;
             justify-content: center;
             align-items: center;
@@ -688,6 +743,25 @@
                                     </div>
                                 </div>
                                 
+                                <!-- Move Both Cards -->
+                                <div class="move-both-controls">
+                                    <h6 class="mb-3"><i class="fas fa-arrows-alt me-2"></i><span data-i18n="move_both">দুই কার্ড একসাথে সরান</span></h6>
+                                    <div class="move-buttons">
+                                        <button class="move-btn" onclick="moveBoth('up')" title="উপরে">
+                                            <i class="fas fa-arrow-up"></i>
+                                        </button>
+                                        <button class="move-btn" onclick="moveBoth('down')" title="নিচে">
+                                            <i class="fas fa-arrow-down"></i>
+                                        </button>
+                                        <button class="move-btn" onclick="moveBoth('left')" title="বামে">
+                                            <i class="fas fa-arrow-left"></i>
+                                        </button>
+                                        <button class="move-btn" onclick="moveBoth('right')" title="ডানে">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
                                 <div class="row">
                                     <div class="col-md-6">
                                         <h6 class="fw-bold mb-3" data-i18n="card1_settings">কার্ড ১</h6>
@@ -815,6 +889,7 @@
                 customize: 'কাস্টমাইজড করুন',
                 custom_panel: 'কাস্টমাইজেশন',
                 zoom: 'জুম',
+                move_both: 'দুই কার্ড একসাথে সরান',
                 card1_settings: 'কার্ড ১',
                 card2_settings: 'কার্ড ২',
                 opacity: 'অপাসিটি',
@@ -830,14 +905,14 @@
                 crop_title: 'ক্রপ করুন',
                 crop_confirm: 'ক্রপ',
                 cancel: 'বাতিল',
-                success_upload: 'ফাইল সফল হয়েছে!',
-                error_upload: 'ফাইল লোডে সমস্যা!',
+                success_upload: 'সফল!',
+                error_upload: 'সমস্যা!',
                 invalid_file: 'অবৈধ ফাইল!',
                 crop_required: 'ক্রপ করুন!',
-                download_success: 'ডাউনলোড সফল!',
-                download_error: 'ডাউনলোডে সমস্যা!',
-                reset_success: 'সব রিসেট হয়েছে!',
-                file_required: 'ফাইল আপলোড করুন'
+                download_success: 'সফল!',
+                download_error: 'সমস্যা!',
+                reset_success: 'রিসেট হয়েছে!',
+                file_required: 'ফাইল দিন'
             },
             en: {
                 upload_title: 'Upload',
@@ -857,6 +932,7 @@
                 customize: 'Customize',
                 custom_panel: 'Customization',
                 zoom: 'Zoom',
+                move_both: 'Move Both Cards',
                 card1_settings: 'Card 1',
                 card2_settings: 'Card 2',
                 opacity: 'Opacity',
@@ -872,14 +948,14 @@
                 crop_title: 'Crop',
                 crop_confirm: 'Crop',
                 cancel: 'Cancel',
-                success_upload: 'File uploaded!',
-                error_upload: 'Error uploading!',
-                invalid_file: 'Invalid file!',
-                crop_required: 'Please crop!',
-                download_success: 'Download successful!',
-                download_error: 'Download error!',
-                reset_success: 'All reset!',
-                file_required: 'Upload a file'
+                success_upload: 'Success!',
+                error_upload: 'Error!',
+                invalid_file: 'Invalid!',
+                crop_required: 'Crop!',
+                download_success: 'Success!',
+                download_error: 'Error!',
+                reset_success: 'Reset!',
+                file_required: 'Upload file'
             }
         };
 
@@ -893,6 +969,7 @@
         
         let card1Settings = { x: 0, y: 0, opacity: 1 };
         let card2Settings = { x: 0, y: 0, opacity: 1 };
+        let bothCardsOffset = { x: 0, y: 0 };
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -1140,9 +1217,21 @@
             const cardImg = document.getElementById(`card${cardNumber}Img`);
             
             if (cardImg) {
-                cardWrapper.style.transform = `translate(${settings.x}px, ${settings.y}px)`;
+                cardWrapper.style.transform = `translate(${settings.x + bothCardsOffset.x}px, ${settings.y + bothCardsOffset.y}px)`;
                 cardImg.style.opacity = settings.opacity;
             }
+        }
+
+        // ========== MOVE BOTH CARDS ==========
+        function moveBoth(direction) {
+            switch(direction) {
+                case 'up': bothCardsOffset.y -= 10; break;
+                case 'down': bothCardsOffset.y += 10; break;
+                case 'left': bothCardsOffset.x -= 10; break;
+                case 'right': bothCardsOffset.x += 10; break;
+            }
+            applyCustomization(1);
+            applyCustomization(2);
         }
 
         function customMove(cardNumber, direction) {
@@ -1165,6 +1254,7 @@
         function resetCustomization() {
             card1Settings = { x: 0, y: 0, opacity: 1 };
             card2Settings = { x: 0, y: 0, opacity: 1 };
+            bothCardsOffset = { x: 0, y: 0 };
             document.getElementById('card1OpacitySlider').value = 100;
             document.getElementById('card2OpacitySlider').value = 100;
             applyCustomization(1);
@@ -1216,11 +1306,9 @@
             hideLoader();
         }
 
-        // ========== KEY FIX: Download PDF from Preview ==========
         async function downloadPDF() {
             const a4Page = document.getElementById('a4Page');
             
-            // Capture the exact preview
             const canvas = await html2canvas(a4Page, {
                 scale: 3,
                 useCORS: true,
@@ -1243,11 +1331,9 @@
             doc.save('nid-cards.pdf');
         }
 
-        // ========== KEY FIX: Download Image from Preview ==========
         async function downloadImage(format) {
             const a4Page = document.getElementById('a4Page');
             
-            // Capture the exact preview in HD
             const canvas = await html2canvas(a4Page, {
                 scale: 3,
                 useCORS: true,
@@ -1313,14 +1399,15 @@
             
             icon.innerHTML = type === 'success' ? '<i class="fas fa-check"></i>' :
                             type === 'error' ? '<i class="fas fa-times"></i>' :
-                            '<i class="fas fa-exclamation"></i>';
+                            type === 'warning' ? '<i class="fas fa-exclamation"></i>' :
+                            '<i class="fas fa-info"></i>';
             
             msg.textContent = message;
             toast.className = `toast-custom toast-${type}`;
             
             setTimeout(() => toast.classList.add('show'), 100);
             clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
         // ========== LOADER ==========
