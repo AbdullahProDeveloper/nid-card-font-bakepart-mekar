@@ -324,7 +324,7 @@
             position: relative;
         }
 
-        /* A4 Page */
+        /* A4 Page - Pure White */
         .a4-page {
             width: 210mm;
             min-height: 297mm;
@@ -337,14 +337,14 @@
             transition: all 0.5s ease;
         }
 
-        /* NID Card */
+        /* NID Card - No Border, No Design */
         .nid-card-wrapper {
             background: white;
-            border-radius: 12px;
+            border-radius: 0;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: none;
         }
 
         .nid-card-wrapper img {
@@ -362,7 +362,7 @@
             background: #f8fafc;
             color: #94a3b8;
             border: 2px dashed var(--border);
-            border-radius: 12px;
+            border-radius: 0;
         }
 
         .empty-card-message i {
@@ -375,21 +375,33 @@
             color: #64748b;
         }
 
-        /* Customization Tools */
+        /* Customization Panel */
         .customization-panel {
             background: white;
             border-radius: 15px;
             padding: 20px;
             margin-top: 20px;
             box-shadow: var(--shadow-md);
+            display: none;
         }
 
-        .customization-panel h6 {
-            color: var(--dark);
+        .customization-panel.show {
+            display: block;
+            animation: slideInUp 0.3s ease;
+        }
+
+        .customization-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 15px;
-            font-weight: 600;
-            border-bottom: 2px solid var(--border);
             padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .customization-header h6 {
+            margin: 0;
+            font-weight: 600;
         }
 
         .customization-panel .form-label {
@@ -411,7 +423,7 @@
             box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.1);
         }
 
-        .btn-customize {
+        .btn-customize-toggle {
             background: var(--gradient);
             color: white;
             border: none;
@@ -419,9 +431,11 @@
             padding: 10px 20px;
             font-weight: 600;
             transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
         }
 
-        .btn-customize:hover {
+        .btn-customize-toggle:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
@@ -633,6 +647,41 @@
             background: var(--primary);
         }
 
+        /* Zoom Controls */
+        .zoom-controls {
+            background: white;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: var(--shadow-md);
+            display: inline-flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .zoom-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #f1f5f9;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .zoom-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .zoom-level {
+            padding: 5px 15px;
+            font-weight: 600;
+            color: var(--dark);
+            min-width: 60px;
+            text-align: center;
+        }
+
         /* Responsive */
         @media (max-width: 992px) {
             .a4-page {
@@ -675,7 +724,7 @@
 
         /* Print Styles */
         @media print {
-            .navbar, .no-print, .sidebar, .action-buttons, .customization-panel {
+            .navbar, .no-print, .sidebar, .action-buttons, .customization-panel, .btn-customize-toggle {
                 display: none !important;
             }
             
@@ -840,69 +889,6 @@
                             </div>
                         </div>
                         
-                        <!-- Advanced Tools -->
-                        <div class="mt-4">
-                            <h6 class="fw-bold mb-3"><i class="fas fa-tools me-2"></i>উন্নত টুলস</h6>
-                            
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">কার্ড সাইজ</label>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="changeCardSize('small')">
-                                        <i class="fas fa-compress-alt me-1"></i> ছোট
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="changeCardSize('medium')">
-                                        <i class="fas fa-expand-alt me-1"></i> মাঝারি
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="changeCardSize('large')">
-                                        <i class="fas fa-expand me-1"></i> বড়
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">কার্ড পজিশন</label>
-                                <div class="d-grid gap-2">
-                                    <button class="btn btn-sm btn-outline-primary" onclick="moveCard('up')">
-                                        <i class="fas fa-arrow-up me-1"></i> উপরে সরান
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary" onclick="moveCard('down')">
-                                        <i class="fas fa-arrow-down me-1"></i> নিচে সরান
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary" onclick="moveCard('left')">
-                                        <i class="fas fa-arrow-left me-1"></i> বামে সরান
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary" onclick="moveCard('right')">
-                                        <i class="fas fa-arrow-right me-1"></i> ডানে সরান
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">রোটেশন</label>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="rotateCard(-15)">
-                                        <i class="fas fa-undo me-1"></i> -15°
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="rotateCard(15)">
-                                        <i class="fas fa-redo me-1"></i> +15°
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">অপাসিটি</label>
-                                <input type="range" class="range-slider" id="opacitySlider" min="50" max="100" value="100" oninput="changeOpacity(this.value)">
-                                <div class="d-flex justify-content-between mt-1">
-                                    <small>50%</small>
-                                    <small>100%</small>
-                                </div>
-                            </div>
-                            
-                            <button class="btn btn-custom btn-info-gradient w-100" onclick="resetCustomization()">
-                                <i class="fas fa-undo me-2"></i>ডিফল্ট সেটিংসে ফিরুন
-                            </button>
-                        </div>
-                        
                         <!-- Reset All -->
                         <div class="mt-4">
                             <button class="btn btn-custom btn-danger-gradient w-100" onclick="resetAll()">
@@ -943,7 +929,7 @@
                         
                         <!-- Preview Container -->
                         <div class="preview-container d-none" id="previewContainer">
-                            <!-- A4 Page -->
+                            <!-- A4 Page - Pure White -->
                             <div class="a4-page" id="a4Page">
                                 <!-- Card 1 -->
                                 <div class="nid-card-wrapper" id="card1">
@@ -966,75 +952,120 @@
                                 </div>
                             </div>
                             
+                            <!-- Customize Toggle Button -->
+                            <button class="btn btn-customize-toggle" onclick="toggleCustomizationPanel()">
+                                <i class="fas fa-sliders-h me-2"></i>
+                                কাস্টমাইজড করুন
+                            </button>
+                            
                             <!-- Customization Panel -->
-                            <div class="customization-panel">
-                                <h6><i class="fas fa-sliders-h me-2"></i>কাস্টমাইজেশন</h6>
+                            <div class="customization-panel" id="customizationPanel">
+                                <div class="customization-header">
+                                    <h6><i class="fas fa-tools me-2"></i>কাস্টমাইজেশন প্যানেল</h6>
+                                    <button class="btn btn-sm btn-close" onclick="toggleCustomizationPanel()"></button>
+                                </div>
                                 
                                 <div class="row g-3">
-                                    <div class="col-6">
-                                        <label class="form-label">কার্ড ১ পজিশন</label>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'up')">
-                                                <i class="fas fa-arrow-up"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'down')">
-                                                <i class="fas fa-arrow-down"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'left')">
-                                                <i class="fas fa-arrow-left"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'right')">
-                                                <i class="fas fa-arrow-right"></i>
-                                            </button>
+                                    <!-- Card 1 Controls -->
+                                    <div class="col-md-6">
+                                        <h6 class="fw-bold mb-3">কার্ড ১</h6>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">সাইজ</label>
+                                            <input type="range" class="range-slider" id="card1SizeSlider" min="50" max="100" value="100" oninput="customSize(1, this.value)">
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <small>50%</small>
+                                                <small>100%</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">রোটেশন</label>
+                                            <input type="range" class="range-slider" id="card1RotateSlider" min="-180" max="180" value="0" oninput="customRotate(1, this.value)">
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <small>-180°</small>
+                                                <small>0°</small>
+                                                <small>180°</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">অপাসিটি</label>
+                                            <input type="range" class="range-slider" id="card1OpacitySlider" min="50" max="100" value="100" oninput="customOpacity(1, this.value)">
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <small>50%</small>
+                                                <small>100%</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">পজিশন</label>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'up')">
+                                                    <i class="fas fa-arrow-up"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'down')">
+                                                    <i class="fas fa-arrow-down"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'left')">
+                                                    <i class="fas fa-arrow-left"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(1, 'right')">
+                                                    <i class="fas fa-arrow-right"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                     
-                                    <div class="col-6">
-                                        <label class="form-label">কার্ড ২ পজিশন</label>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'up')">
-                                                <i class="fas fa-arrow-up"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'down')">
-                                                <i class="fas fa-arrow-down"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'left')">
-                                                <i class="fas fa-arrow-left"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'right')">
-                                                <i class="fas fa-arrow-right"></i>
-                                            </button>
+                                    <!-- Card 2 Controls -->
+                                    <div class="col-md-6">
+                                        <h6 class="fw-bold mb-3">কার্ড ২</h6>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">সাইজ</label>
+                                            <input type="range" class="range-slider" id="card2SizeSlider" min="50" max="100" value="100" oninput="customSize(2, this.value)">
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <small>50%</small>
+                                                <small>100%</small>
+                                            </div>
                                         </div>
-                                    </div>
-                                    
-                                    <div class="col-6">
-                                        <label class="form-label">কার্ড ১ সাইজ</label>
-                                        <input type="range" class="range-slider" id="card1SizeSlider" min="50" max="100" value="100" oninput="customSize(1, this.value)">
-                                    </div>
-                                    
-                                    <div class="col-6">
-                                        <label class="form-label">কার্ড ২ সাইজ</label>
-                                        <input type="range" class="range-slider" id="card2SizeSlider" min="50" max="100" value="100" oninput="customSize(2, this.value)">
-                                    </div>
-                                    
-                                    <div class="col-6">
-                                        <label class="form-label">কার্ড ১ রোটেশন</label>
-                                        <input type="range" class="range-slider" id="card1RotateSlider" min="-180" max="180" value="0" oninput="customRotate(1, this.value)">
-                                    </div>
-                                    
-                                    <div class="col-6">
-                                        <label class="form-label">কার্ড ২ রোটেশন</label>
-                                        <input type="range" class="range-slider" id="card2RotateSlider" min="-180" max="180" value="0" oninput="customRotate(2, this.value)">
-                                    </div>
-                                    
-                                    <div class="col-6">
-                                        <label class="form-label">কার্ড ১ অপাসিটি</label>
-                                        <input type="range" class="range-slider" id="card1OpacitySlider" min="50" max="100" value="100" oninput="customOpacity(1, this.value)">
-                                    </div>
-                                    
-                                    <div class="col-6">
-                                        <label class="form-label">কার্ড ২ অপাসিটি</label>
-                                        <input type="range" class="range-slider" id="card2OpacitySlider" min="50" max="100" value="100" oninput="customOpacity(2, this.value)">
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">রোটেশন</label>
+                                            <input type="range" class="range-slider" id="card2RotateSlider" min="-180" max="180" value="0" oninput="customRotate(2, this.value)">
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <small>-180°</small>
+                                                <small>0°</small>
+                                                <small>180°</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">অপাসিটি</label>
+                                            <input type="range" class="range-slider" id="card2OpacitySlider" min="50" max="100" value="100" oninput="customOpacity(2, this.value)">
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <small>50%</small>
+                                                <small>100%</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">পজিশন</label>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'up')">
+                                                    <i class="fas fa-arrow-up"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'down')">
+                                                    <i class="fas fa-arrow-down"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'left')">
+                                                    <i class="fas fa-arrow-left"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="customMove(2, 'right')">
+                                                    <i class="fas fa-arrow-right"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                     
                                     <div class="col-12">
@@ -1186,16 +1217,9 @@
         });
 
         function initialize() {
-            // Set default zoom
             applyZoom();
-            
-            // Toast initialization
             initToast();
-            
-            // Setup drag and drop
             setupDragAndDrop();
-            
-            // Select card 1 by default
             selectCard(1);
         }
 
@@ -1392,7 +1416,6 @@
                 <img src="${imageSrc}" alt="Card ${cardNumber}" id="card${cardNumber}Img">
             `;
             
-            // Apply customization
             applyCustomization(cardNumber);
             
             const cardWrapper = document.getElementById(`card${cardNumber}`);
@@ -1459,6 +1482,11 @@
         }
 
         // ========== CUSTOMIZATION FUNCTIONS ==========
+        function toggleCustomizationPanel() {
+            const panel = document.getElementById('customizationPanel');
+            panel.classList.toggle('show');
+        }
+
         function applyCustomization(cardNumber) {
             const settings = cardNumber === 1 ? card1Settings : card2Settings;
             const cardWrapper = document.getElementById(`card${cardNumber}`);
@@ -1510,66 +1538,17 @@
             applyCustomization(cardNumber);
         }
 
-        // Quick controls
-        function changeCardSize(size) {
-            const scale = size === 'small' ? 0.7 : size === 'medium' ? 0.85 : 1;
-            
-            if (selectedCard === 1) {
-                card1Settings.scale = scale;
-                document.getElementById('card1SizeSlider').value = scale * 100;
-                applyCustomization(1);
-            } else {
-                card2Settings.scale = scale;
-                document.getElementById('card2SizeSlider').value = scale * 100;
-                applyCustomization(2);
-            }
-        }
-
-        function moveCard(direction) {
-            customMove(selectedCard, direction);
-        }
-
-        function rotateCard(degrees) {
-            const settings = selectedCard === 1 ? card1Settings : card2Settings;
-            settings.rotation += degrees;
-            
-            if (selectedCard === 1) {
-                document.getElementById('card1RotateSlider').value = settings.rotation;
-                applyCustomization(1);
-            } else {
-                document.getElementById('card2RotateSlider').value = settings.rotation;
-                applyCustomization(2);
-            }
-        }
-
-        function changeOpacity(value) {
-            const opacity = value / 100;
-            
-            if (selectedCard === 1) {
-                card1Settings.opacity = opacity;
-                document.getElementById('card1OpacitySlider').value = value;
-                applyCustomization(1);
-            } else {
-                card2Settings.opacity = opacity;
-                document.getElementById('card2OpacitySlider').value = value;
-                applyCustomization(2);
-            }
-        }
-
         function resetCustomization() {
             card1Settings = { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1 };
             card2Settings = { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1 };
             
-            // Reset sliders
             document.getElementById('card1SizeSlider').value = 100;
             document.getElementById('card2SizeSlider').value = 100;
             document.getElementById('card1RotateSlider').value = 0;
             document.getElementById('card2RotateSlider').value = 0;
             document.getElementById('card1OpacitySlider').value = 100;
             document.getElementById('card2OpacitySlider').value = 100;
-            document.getElementById('opacitySlider').value = 100;
             
-            // Apply to cards
             applyCustomization(1);
             applyCustomization(2);
             
@@ -1632,7 +1611,7 @@
                 format: 'a4'
             });
             
-            // White background
+            // Pure white background
             doc.setFillColor(255, 255, 255);
             doc.rect(0, 0, 210, 297, 'F');
             
@@ -1723,8 +1702,6 @@
             applyZoom();
             
             selectCard(1);
-            
-            // Reset customization
             resetCustomization();
             
             showToast('সবকিছু রিসেট হয়েছে!', 'success');
