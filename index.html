@@ -337,6 +337,7 @@
             border-radius: 10px;
             position: relative;
             transition: transform 0.3s ease;
+            overflow: hidden;
         }
 
         /* NID Card - Official Size */
@@ -387,8 +388,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20mm;
-            padding: 20mm 0;
+            gap: 15mm;
+            padding: 10mm 0;
         }
 
         /* Customization Panel */
@@ -689,8 +690,9 @@
         /* Responsive */
         @media (max-width: 992px) {
             .a4-page {
-                width: 100%;
-                padding: 5mm;
+                width: 210mm;
+                padding: 10mm;
+                overflow-x: auto;
             }
         }
 
@@ -775,7 +777,7 @@
             
             .card-container {
                 padding: 0 !important;
-                gap: 15mm !important;
+                gap: 10mm !important;
             }
             
             .nid-card-wrapper {
@@ -1603,12 +1605,12 @@
             const cardHeight = 54;
             
             // Card 1 position
-            const card1X = (210 - cardWidth) / 2 + card1Settings.x;
-            const card1Y = 20 + card1Settings.y;
+            const card1X = (210 - cardWidth) / 2 + card1Settings.x * 0.5;
+            const card1Y = 20 + card1Settings.y * 0.5;
             
             // Card 2 position
-            const card2X = (210 - cardWidth) / 2 + card2Settings.x;
-            const card2Y = 100 + card2Settings.y;
+            const card2X = (210 - cardWidth) / 2 + card2Settings.x * 0.5;
+            const card2Y = 90 + card2Settings.y * 0.5;
             
             // Add cards
             if (card1Image) {
