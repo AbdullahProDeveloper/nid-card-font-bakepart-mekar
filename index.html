@@ -28,10 +28,6 @@
             --light: #f8fafc;
             --border: #e2e8f0;
             --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-width: 85.6mm;
-            --card-height: 54mm;
-            --a4-width: 210mm;
-            --a4-height: 297mm;
         }
 
         * {
@@ -217,7 +213,7 @@
             position: relative;
         }
 
-        /* A4 Page - Exact Size */
+        /* A4 Page */
         .a4-page {
             width: 794px;
             min-height: 1123px;
@@ -225,7 +221,6 @@
             margin: 0 auto;
             padding: 40px;
             position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
             -webkit-user-select: none;
             user-select: none;
             -webkit-touch-callout: none;
@@ -244,7 +239,7 @@
             transform-origin: center center;
         }
 
-        /* NID Card - Official Size */
+        /* NID Card */
         .nid-card-wrapper {
             width: 323px;
             height: 204px;
@@ -416,7 +411,7 @@
             background: #f8fafc;
         }
 
-        /* Professional Toast */
+        /* Toast */
         .toast-custom {
             position: fixed;
             top: 60px;
@@ -431,7 +426,7 @@
             align-items: center;
             gap: 10px;
             transform: translateX(300px);
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.5s;
             border: 1px solid rgba(255,255,255,0.2);
             max-width: 300px;
         }
@@ -473,60 +468,6 @@
             font-weight: 500;
             color: var(--dark);
             line-height: 1.3;
-        }
-
-        /* Long Press Menu */
-        .longpress-menu {
-            display: none;
-            position: fixed;
-            z-index: 10001;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            padding: 10px;
-            min-width: 250px;
-            border: 1px solid var(--border);
-        }
-
-        .longpress-menu.show {
-            display: block;
-            animation: fadeIn 0.2s ease;
-        }
-
-        .longpress-menu-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--dark);
-        }
-
-        .longpress-menu-item:hover {
-            background: #f8fafc;
-        }
-
-        .longpress-menu-item i {
-            width: 20px;
-            text-align: center;
-            color: var(--primary);
-        }
-
-        .longpress-menu-item.danger {
-            color: var(--danger);
-        }
-
-        .longpress-menu-item.danger i {
-            color: var(--danger);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
         }
 
         /* Modal */
@@ -786,7 +727,7 @@
                         <!-- Preview Container -->
                         <div class="d-none" id="previewContainer">
                             <!-- A4 Page -->
-                            <div class="a4-page-wrapper" id="a4PageWrapper">
+                            <div class="a4-page-wrapper">
                                 <div class="a4-page" id="a4Page">
                                     <div class="card-container">
                                         <!-- Card 1 -->
@@ -926,30 +867,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Long Press Menu -->
-    <div class="longpress-menu" id="longpressMenu">
-        <div class="longpress-menu-item" onclick="longPressDownload('png')">
-            <i class="fas fa-download"></i>
-            <span>PNG ডাউনলোড</span>
-        </div>
-        <div class="longpress-menu-item" onclick="longPressDownload('jpeg')">
-            <i class="fas fa-file-image"></i>
-            <span>JPEG ডাউনলোড</span>
-        </div>
-        <div class="longpress-menu-item" onclick="longPressDownload('pdf')">
-            <i class="fas fa-file-pdf"></i>
-            <span>PDF ডাউনলোড</span>
-        </div>
-        <div class="longpress-menu-item" onclick="longPressShare()">
-            <i class="fas fa-share-alt"></i>
-            <span>শেয়ার করুন</span>
-        </div>
-        <div class="longpress-menu-item danger" onclick="closeLongPressMenu()">
-            <i class="fas fa-times"></i>
-            <span>বাতিল</span>
         </div>
     </div>
 
@@ -1123,11 +1040,15 @@
                 e.preventDefault();
             });
             
-            // Long press detection
+            // Long press detection - Download PNG
             a4Page.addEventListener('touchstart', (e) => {
                 longPressTimer = setTimeout(() => {
-                    showLongPressMenu(e.touches[0].clientX, e.touches[0].clientY);
-                }, 600);
+                    // Direct download on long press
+                    if (card1Image || card2Image) {
+                        downloadImage('png');
+                        showToast(translations[currentLanguage].download_success, 'success');
+                    }
+                }, 800);
             });
             
             a4Page.addEventListener('touchend', () => {
@@ -1141,8 +1062,11 @@
             // Mouse long press for desktop
             a4Page.addEventListener('mousedown', (e) => {
                 longPressTimer = setTimeout(() => {
-                    showLongPressMenu(e.clientX, e.clientY);
-                }, 600);
+                    if (card1Image || card2Image) {
+                        downloadImage('png');
+                        showToast(translations[currentLanguage].download_success, 'success');
+                    }
+                }, 800);
             });
             
             a4Page.addEventListener('mouseup', () => {
@@ -1152,87 +1076,6 @@
             a4Page.addEventListener('mousemove', () => {
                 clearTimeout(longPressTimer);
             });
-        }
-
-        function showLongPressMenu(x, y) {
-            const menu = document.getElementById('longpressMenu');
-            menu.style.left = x + 'px';
-            menu.style.top = y + 'px';
-            menu.classList.add('show');
-        }
-
-        function closeLongPressMenu() {
-            document.getElementById('longpressMenu').classList.remove('show');
-        }
-
-        // ========== LONG PRESS ACTIONS ==========
-        async function longPressDownload(type) {
-            closeLongPressMenu();
-            
-            if (!card1Image && !card2Image) {
-                showToast(translations[currentLanguage].file_required, 'warning');
-                return;
-            }
-            
-            showLoader();
-            
-            try {
-                if (type === 'pdf') {
-                    await downloadPDF();
-                } else {
-                    await downloadImage(type);
-                }
-                showToast(translations[currentLanguage].download_success, 'success');
-            } catch (error) {
-                showToast(translations[currentLanguage].download_error, 'error');
-            }
-            
-            hideLoader();
-        }
-
-        async function longPressShare() {
-            closeLongPressMenu();
-            
-            if (!card1Image && !card2Image) {
-                showToast(translations[currentLanguage].file_required, 'warning');
-                return;
-            }
-            
-            showLoader();
-            
-            try {
-                const a4Page = document.getElementById('a4Page');
-                const canvas = await html2canvas(a4Page, {
-                    scale: 3,
-                    useCORS: true,
-                    backgroundColor: '#ffffff',
-                    logging: false,
-                    windowWidth: 794,
-                    windowHeight: 1123
-                });
-                
-                canvas.toBlob((blob) => {
-                    if (navigator.share) {
-                        const file = new File([blob], 'nid-cards.png', { type: 'image/png' });
-                        navigator.share({
-                            files: [file],
-                            title: 'NID Cards'
-                        }).catch(() => {});
-                    } else {
-                        // Fallback to download
-                        const link = document.createElement('a');
-                        link.download = 'nid-cards.png';
-                        link.href = canvas.toDataURL('image/png');
-                        link.click();
-                    }
-                }, 'image/png');
-                
-                showToast(translations[currentLanguage].download_success, 'success');
-            } catch (error) {
-                showToast(translations[currentLanguage].download_error, 'error');
-            }
-            
-            hideLoader();
         }
 
         // ========== LANGUAGE SWITCH ==========
@@ -1540,7 +1383,7 @@
             document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
         }
 
-        // ========== DOWNLOAD (FIXED) ==========
+        // ========== DOWNLOAD ==========
         async function downloadAs(type) {
             if (!card1Image && !card2Image) {
                 showToast(translations[currentLanguage].file_required, 'warning');
@@ -1568,20 +1411,52 @@
             hideLoader();
         }
 
+        // ========== FIXED DOWNLOAD - Canvas Drawing ==========
         async function downloadPDF() {
-            const a4Page = document.getElementById('a4Page');
+            const canvas = document.createElement('canvas');
+            canvas.width = 2480; // A4 at 300 DPI
+            canvas.height = 3508;
+            const ctx = canvas.getContext('2d');
             
-            const canvas = await html2canvas(a4Page, {
-                scale: 3,
-                useCORS: true,
-                backgroundColor: '#ffffff',
-                logging: false,
-                windowWidth: 794,
-                windowHeight: 1123
-            });
+            // White background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            // Card dimensions at 300 DPI
+            const cardWidth = 1012; // 85.6mm at 300 DPI
+            const cardHeight = 638; // 54mm at 300 DPI
+            const centerX = (canvas.width - cardWidth) / 2;
+            const card1Y = 200 + bothCardsOffset.y * 3; // Adjust for both offset
+            const card2Y = 1100 + bothCardsOffset.y * 3;
             
+            // Draw Card 1
+            if (card1Image) {
+                const img = new Image();
+                await new Promise((resolve) => {
+                    img.onload = resolve;
+                    img.src = card1Image;
+                });
+                ctx.save();
+                ctx.globalAlpha = card1Settings.opacity;
+                ctx.drawImage(img, centerX + card1Settings.x * 3, card1Y + card1Settings.y * 3, cardWidth, cardHeight);
+                ctx.restore();
+            }
+            
+            // Draw Card 2
+            if (card2Image) {
+                const img = new Image();
+                await new Promise((resolve) => {
+                    img.onload = resolve;
+                    img.src = card2Image;
+                });
+                ctx.save();
+                ctx.globalAlpha = card2Settings.opacity;
+                ctx.drawImage(img, centerX + card2Settings.x * 3, card2Y + card2Settings.y * 3, cardWidth, cardHeight);
+                ctx.restore();
+            }
+            
+            // Convert to PDF
+            const imgData = canvas.toDataURL('image/jpeg', 0.95);
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({
                 orientation: 'portrait',
@@ -1594,17 +1469,49 @@
         }
 
         async function downloadImage(format) {
-            const a4Page = document.getElementById('a4Page');
+            const canvas = document.createElement('canvas');
+            canvas.width = 2480; // A4 at 300 DPI
+            canvas.height = 3508;
+            const ctx = canvas.getContext('2d');
             
-            const canvas = await html2canvas(a4Page, {
-                scale: 3,
-                useCORS: true,
-                backgroundColor: '#ffffff',
-                logging: false,
-                windowWidth: 794,
-                windowHeight: 1123
-            });
+            // White background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             
+            // Card dimensions at 300 DPI
+            const cardWidth = 1012;
+            const cardHeight = 638;
+            const centerX = (canvas.width - cardWidth) / 2;
+            const card1Y = 200 + bothCardsOffset.y * 3;
+            const card2Y = 1100 + bothCardsOffset.y * 3;
+            
+            // Draw Card 1
+            if (card1Image) {
+                const img = new Image();
+                await new Promise((resolve) => {
+                    img.onload = resolve;
+                    img.src = card1Image;
+                });
+                ctx.save();
+                ctx.globalAlpha = card1Settings.opacity;
+                ctx.drawImage(img, centerX + card1Settings.x * 3, card1Y + card1Settings.y * 3, cardWidth, cardHeight);
+                ctx.restore();
+            }
+            
+            // Draw Card 2
+            if (card2Image) {
+                const img = new Image();
+                await new Promise((resolve) => {
+                    img.onload = resolve;
+                    img.src = card2Image;
+                });
+                ctx.save();
+                ctx.globalAlpha = card2Settings.opacity;
+                ctx.drawImage(img, centerX + card2Settings.x * 3, card2Y + card2Settings.y * 3, cardWidth, cardHeight);
+                ctx.restore();
+            }
+            
+            // Download
             const link = document.createElement('a');
             link.download = `nid-cards.${format}`;
             link.href = canvas.toDataURL(`image/${format}`, 1.0);
